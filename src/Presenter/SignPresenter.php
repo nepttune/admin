@@ -2,7 +2,7 @@
 
 namespace Nepttune\Presenter;
 
-abstract class SignPresenter extends BasePresenter
+final class SignPresenter extends BasePresenter
 {
     /** @persistent */
     public $backlink;
