@@ -29,6 +29,11 @@ abstract class BaseAuthPresenter extends BasePresenter
         return static::getAdminLayout();
     }
 
+    public static function getAdminLayout() : string
+    {
+        return __DIR__ . '/../templates/@admin.latte';
+    }
+    
     public function useNotifications() : bool
     {
         return $this->context->hasService('notifications');
