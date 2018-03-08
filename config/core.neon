@@ -35,7 +35,7 @@ parameters:
     redirectSignIn: ':Admin:Default:default'
     redirectSignOut: ':Admin:Sign:in'
     
-    configMenu: [
+    configMenu:
         user:
             name: 'Users'
             icon: 'user'
@@ -44,5 +44,3 @@ parameters:
             name: 'Roles'
             icon: 'bolt'
             dest: ':Admin:Role:default'
-    ]
-  
