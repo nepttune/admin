@@ -36,11 +36,12 @@ parameters:
     redirectSignOut: ':Admin:Sign:in'
     
     configMenu:
-        user:
-            name: 'Users'
-            icon: 'user'
-            dest: ':Admin:User:default'
-        role:
-            name: 'Roles'
-            icon: 'bolt'
-            dest: ':Admin:Role:default'
+        Menu:
+            user:
+                name: 'Users'
+                icon: 'user'
+                dest: ':Admin:User:default'
+            role:
+                name: 'Roles'
+                icon: 'bolt'
+                dest: ':Admin:Role:default'
