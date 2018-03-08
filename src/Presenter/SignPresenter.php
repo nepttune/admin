@@ -1,8 +1,8 @@
 <?php
 
-namespace Nepttune\Presenter;
+namespace App\AdminModule\Presenter;
 
-final class SignPresenter extends BasePresenter
+final class SignPresenter extends \Nepttune\Presenter\BasePresenter
 {
     /** @persistent */
     public $backlink;
@@ -13,10 +13,5 @@ final class SignPresenter extends BasePresenter
 
         $this->flashMessage('Successfully logged out.', 'success');
         $this->redirect($this->context->parameters['redirectSignOut']);
-    }
-
-    public function renderIn()
-    {
-        $this->template->setFile(__DIR__ . '/../templates/Sign/in.latte');
     }
 }
