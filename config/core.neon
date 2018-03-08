@@ -30,19 +30,19 @@ parameters:
     destAuthHomepage: ':Admin:Default:default'
     destUserProfile: ':Admin:Profile:view'   # false or dest
     
-    destSignIn: ':Nepttune:Sign:in'
-    destSignOut: ':Nepttune:Sign:out'
+    destSignIn: ':Admin:Sign:in'
+    destSignOut: ':Admin:Sign:out'
     redirectSignIn: ':Admin:Default:default'
-    redirectSignOut: ':Nepttune:Sign:in'
+    redirectSignOut: ':Admin:Sign:in'
     
     configMenu: [
         user:
             name: 'Users'
             icon: 'user'
-            dest: ':Nepttune:User:default'
+            dest: ':Admin:User:default'
         role:
             name: 'Roles'
             icon: 'bolt'
-            dest: ':Nepttune:Role:default'
+            dest: ':Admin:Role:default'
     ]
   
