@@ -30,3 +30,14 @@ CREATE TABLE IF NOT EXISTS `user_role`
   CONSTRAINT `user_role_role_id_fk`
   FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
 );
+
+CREATE TABLE IF NOT EXISTS `log_login` 
+(
+  `id`         INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `ip_address` VARBINARY(16)               NOT NULL,
+  `username`   VARCHAR(255)                NOT NULL,
+  `result`     ENUM('success', 'failure')  NOT NULL,
+  `time`       DATETIME                    NOT NULL,
+  
+  INDEX `log_login_ip_address_index` (`ip_address`)
+);
