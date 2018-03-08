@@ -1,2 +1,2 @@
-# admin
+# Admin
 :a: Nepttune administration extension
