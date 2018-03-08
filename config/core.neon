@@ -1,6 +1,6 @@
 services:
     - Nepttune\AdminRouterFactory
-    router: @Nepttune\AdminRouterFactory::createRouter
+    router: @Nepttune\AdminRouterFactory::createSubdomainRouter
 
     - Nepttune\Model\Authenticator
     authenticator: @Nepttune\Model\Authenticator
