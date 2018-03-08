@@ -1,0 +1,24 @@
+services:
+    - Nepttune\Model\Authenticator
+    authenticator: @Nepttune\Model\Authenticator
+
+    loginForm:
+        class: Nepttune\Component\LoginForm
+    breadcrumb:
+        class: Nepttune\Component\Breadcrumb
+    menu:
+        class: Nepttune\Component\ConfigMenu(%configMenu%)
+
+    - Nepttune\Model\LoginLogModel
+
+parameters:
+    destAuthHomepage: ':Admin:Default:default'
+    destUserProfile: ':Admin:Profile:view'   # false or dest
+    
+    destSignIn: ':Admin:Sign:in'
+    destSignOut: ':Admin:Sign:out'
+    redirectSignIn: ':Admin:Default:default'
+    redirectSignOut: ':Admin:Sign:in'
+    
+    configMenu: []
+  
