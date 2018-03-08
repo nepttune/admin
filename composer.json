@@ -1,0 +1,21 @@
+{
+  "name": "nepttune/admin",
+  "description": "Nepttune administration extension",
+  "homepage": "https://www.peldax.com",
+  "type": "library",
+  "license": ["MIT"],
+  "authors": [
+    {
+      "name": "Václav Pelíšek",
+      "homepage": "https://www.peldax.com"
+    }
+  ],
+  "require": {
+    "nepttune/nepttune": "^4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Nepttune\\": "src/"
+    }
+  }
+}
