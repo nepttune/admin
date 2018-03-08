@@ -12,7 +12,19 @@ services:
     menu:
         class: Nepttune\Component\ConfigMenu(%configMenu%)
 
+    userForm:
+        class: Nepttune\Component\UserForm
+    userList:
+        class: Nepttune\Component\UserList
+        
+    roleForm:
+        class: Nepttune\Component\RoleForm
+    roleList:
+        class: Nepttune\Component\RoleList
+
     - Nepttune\Model\LoginLogModel
+    - Nepttune\Model\RoleModel
+    - Nepttune\Model\UserRoleModel
 
 parameters:
     destAuthHomepage: ':Admin:Default:default'
