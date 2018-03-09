@@ -27,11 +27,12 @@ services:
     - Nepttune\Model\UserRoleModel
 
 parameters:
-    destAuthHomepage: ':Admin:Default:default'
-    destUserProfile: ':Admin:Profile:view'   # false or dest
-    
-    destSignIn: ':Admin:Sign:in'
-    destSignOut: ':Admin:Sign:out'
+    dest:
+        adminHomepage: ':Admin:Default:default'
+        userProfile: ':Admin:Profile:view'   # false or dest
+        signOut: ':Admin:Sign:out'
+        signIn: ':Admin:Sign:in'
+
     redirectSignIn: ':Admin:Default:default'
     redirectSignOut: ':Admin:Sign:in'
     
