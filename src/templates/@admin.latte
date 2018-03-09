@@ -4,9 +4,9 @@
 
 <div class="wrapper">
     <header class="main-header">
-        <a href="{plink $destAuthHomepage}" class="logo">
-            <span class="logo-mini">{$appNameShort}</span>
-            <span class="logo-lg">{$appName}</span>
+        <a href="{plink $dest['adminHomepage']}" class="logo">
+            <span class="logo-mini">{$meta['nameShort']}</span>
+            <span class="logo-lg">{$meta['name']}</span>
         </a>
         <nav class="navbar navbar-static-top" role="navigation">
             <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -38,13 +38,13 @@
                                 {control userDetail}
                             {/if}
                             <li class="user-footer">
-                                {if $destUserProfile}
+                                {if $dest['userProfile']}
                                     <div class="pull-left">
-                                        <a href="{plink $destUserProfile, id => $user->getId()}" class="btn btn-default btn-flat">Profile</a>
+                                        <a href="{plink $dest['userProfile'], id => $user->getId()}" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                 {/if}
                                 <div class="pull-right">
-                                    <a href="{plink $destSignOut}" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="{plink $dest['signOut']}" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
                             </li>
                         </ul>
