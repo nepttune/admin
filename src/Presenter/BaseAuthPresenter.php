@@ -14,16 +14,6 @@ abstract class BaseAuthPresenter extends BasePresenter
         parent::startup();
     }
 
-    protected function beforeRender()
-    {
-        parent::beforeRender();
-
-        $this->template->destSignOut = $this->context->parameters['destSignOut'];
-        $this->template->destUserProfile = $this->context->parameters['destUserProfile'];
-
-        $this->template->destAuthHomepage = $this->context->parameters['destAuthHomepage'];
-    }
-
     public static function getDefaultLayout() : string
     {
         return static::getAdminLayout();
