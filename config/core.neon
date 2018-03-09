@@ -6,7 +6,7 @@ services:
     authenticator: @Nepttune\Model\Authenticator
 
     loginForm:
-        class: Nepttune\Component\LoginForm
+        class: Nepttune\Component\LoginForm(%redirectSignIn%)
     breadcrumb:
         class: Nepttune\Component\Breadcrumb
     menu:
