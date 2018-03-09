@@ -4,5 +4,5 @@ namespace Nepttune\Model;
 
 class LoginLogModel extends BaseModel
 {
-    const TABLE_NAME = 'login_log';
+    const TABLE_NAME = 'log_login';
 }
