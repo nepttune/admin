@@ -4,14 +4,29 @@ namespace Nepttune\Presenter;
 
 abstract class BaseAuthPresenter extends BasePresenter
 {
+    /** @var  array */
+    protected $admin;
+
+    public function injectAdminParameters(array $admin)
+    {
+        $this->admin = $admin;
+    }
+
     protected function startup()
     {
         if (!$this->user->isLoggedIn())
         {
-            $this->redirect($this->context->parameters['destSignIn'], ['backlink' => $this->storeRequest()]);
+            $this->redirect($this->dest['signIn'], ['backlink' => $this->storeRequest()]);
         }
 
         parent::startup();
+    }
+
+    protected function beforeRender()
+    {
+        $this->template->admin = $this->admin;
+
+        parent::beforeRender();
     }
 
     public static function getDefaultLayout() : string
@@ -22,25 +37,5 @@ abstract class BaseAuthPresenter extends BasePresenter
     public static function getAdminLayout() : string
     {
         return __DIR__ . '/../templates/@admin.latte';
-    }
-    
-    public function useNotifications() : bool
-    {
-        return $this->context->hasService('notifications');
-    }
-
-    public function useUserDetail() : bool
-    {
-        return $this->context->hasService('userDetail');
-    }
-
-    public function useSidebar() : bool
-    {
-        return $this->context->hasService('sidebar');
-    }
-
-    public function useSearch() : bool
-    {
-        return $this->context->hasService('search');
     }
 }
