@@ -9,7 +9,7 @@
             <span class="logo-lg">{$meta['name']}</span>
         </a>
         <nav class="navbar navbar-static-top" role="navigation">
-            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <a href="javascript:;" class="sidebar-toggle" data-toggle="push-menu" role="button">
                 <span class="sr-only">Toggle navigation</span>
             </a>
             <div class="navbar-custom-menu">
@@ -31,7 +31,7 @@
                                 {/if}
                                 <p>
                                     {$user->identity->username}
-                                    <small>Member since {$user->identity->registered|date:'d.m.Y'}</small>
+                                    <small>{_admin.member_since} {$user->identity->registered|date:'d.m.Y'}</small>
                                 </p>
                             </li>
                             {if $admin['userDetail']}
@@ -40,11 +40,11 @@
                             <li class="user-footer">
                                 {if $dest['userProfile']}
                                     <div class="pull-left">
-                                        <a href="{plink $dest['userProfile'], id => $user->getId()}" class="btn btn-default btn-flat">Profile</a>
+                                        <a href="{plink $dest['userProfile'], id => $user->getId()}" class="btn btn-default btn-flat">{_admin.profile}</a>
                                     </div>
                                 {/if}
                                 <div class="pull-right">
-                                    <a href="{plink $dest['signOut']}" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="{plink $dest['signOut']}" class="btn btn-default btn-flat">{_admin.logout}</a>
                                 </div>
                             </li>
                         </ul>
