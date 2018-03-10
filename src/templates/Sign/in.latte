@@ -5,13 +5,11 @@
 <div class="container">
     <div class="jumbotron">
         <center>
-            <h1>
-                {$meta['name']} <small>{$meta['version']}</small>
-            </h1>
+            <h1>{$meta['name']} <small>{$meta['version']}</small></h1>
         </center>
         {include $presenter->getFlashArea()}
         <h2>
-            {icon unlock} Přihlášení
+            {icon unlock} {_admin.sign.in.title}
         </h2>
         {control loginForm}
     </div>
