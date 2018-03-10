@@ -26,12 +26,23 @@ services:
     - Nepttune\Model\RoleModel
     - Nepttune\Model\UserRoleModel
 
+decorator:
+    Nepttune\Presenter\BaseAuthPresenter:
+        setup:
+            - injectAdminParameters(%admin%)
+
 parameters:
     dest:
         adminHomepage: ':Admin:Default:default'
         userProfile: ':Admin:Profile:view'   # false or dest
         signOut: ':Admin:Sign:out'
         signIn: ':Admin:Sign:in'
+
+    admin:
+        notifications: false
+        userDetail: false
+        search: false
+        sidebar: false
 
     redirectSignIn: ':Admin:Default:default'
     redirectSignOut: ':Admin:Sign:in'
