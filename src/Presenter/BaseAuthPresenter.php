@@ -4,6 +4,18 @@ namespace Nepttune\Presenter;
 
 abstract class BaseAuthPresenter extends BasePresenter
 {
+    /**
+     * @inject
+     * @var  \Nepttune\Component\IConfigMenuFactory
+     */
+    public $iConfigMenuFactory;
+
+    /**
+     * @inject
+     * @var  \Nepttune\Component\IBreadcrumbFactory
+     */
+    public $iBreadbrumbFactory;
+
     /** @var  array */
     protected $admin;
 
@@ -37,5 +49,15 @@ abstract class BaseAuthPresenter extends BasePresenter
     public static function getAdminLayout() : string
     {
         return __DIR__ . '/../templates/@admin.latte';
+    }
+
+    protected function createComponentMenu()
+    {
+        return $this->iConfigMenuFactory->create();
+    }
+
+    protected function createComponentBreadcrumb()
+    {
+        return $this->iBreadbrumbFactory->create();
     }
 }
