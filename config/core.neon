@@ -2,29 +2,27 @@ services:
     - Nepttune\AdminRouterFactory
     router: @Nepttune\AdminRouterFactory::createSubdomainRouter
 
-    - Nepttune\Model\Authenticator
-    authenticator: @Nepttune\Model\Authenticator
-
-    loginForm:
-        class: Nepttune\Component\LoginForm(%redirectSignIn%)
-    breadcrumb:
-        class: Nepttune\Component\Breadcrumb
-    menu:
-        class: Nepttune\Component\ConfigMenu(%configMenu%)
-
-    userForm:
-        class: Nepttune\Component\UserForm
-    userList:
-        class: Nepttune\Component\UserList
-        
-    roleForm:
-        class: Nepttune\Component\RoleForm
-    roleList:
-        class: Nepttune\Component\RoleList
-
     - Nepttune\Model\LoginLogModel
     - Nepttune\Model\RoleModel
     - Nepttune\Model\UserRoleModel
+    - Nepttune\Model\Authenticator
+    authenticator: @Nepttune\Model\Authenticator
+
+    - App\AdminModule\Presenter\SignPresenter(%redirectSignOut%)
+
+    - Nepttune\Component\IBreadcrumbFactory
+    - Nepttune\Component\IUserFormFactory
+    - Nepttune\Component\IUserListFactory
+    - Nepttune\Component\IRoleFormFactory
+    - Nepttune\Component\IRoleListFactory
+    loginFormFactory:
+        implement: Nepttune\Component\ILoginFormFactory
+        arguments:
+            - '%redirectSignIn%'
+    configMenuFactory:
+        implement: Nepttune\Component\IConfigMenuFactory
+        arguments:
+            - '%configMenu%'
 
 decorator:
     Nepttune\Presenter\BaseAuthPresenter:
