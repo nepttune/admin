@@ -25,7 +25,7 @@ final class SignPresenter extends \Nepttune\Presenter\BasePresenter
     {
         $this->getUser()->logout();
 
-        $this->flashMessage('Successfully logged out.', 'success');
+        $this->flashMessage($this->translator->translate('admin.flash.sign_out'), 'success');
         $this->redirect($this->redirectSignOut);
     }
 
