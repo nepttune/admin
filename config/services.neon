@@ -1,0 +1,34 @@
+services:
+    - Nepttune\AdminRouterFactory
+    router: @Nepttune\AdminRouterFactory::createSubdomainRouter
+
+    - Nepttune\Model\LoginLogModel
+    - Nepttune\Model\RoleModel
+    - Nepttune\Model\UserRoleModel
+    - Nepttune\Model\Authenticator
+    authenticator: @Nepttune\Model\Authenticator
+
+    - App\AdminModule\Presenter\SignPresenter(%redirectSignOut%)
+
+    - Nepttune\Component\IBreadcrumbFactory
+    - Nepttune\Component\IUserFormFactory
+    - Nepttune\Component\IUserListFactory
+    - Nepttune\Component\IRoleFormFactory
+    - Nepttune\Component\IRoleListFactory
+    loginFormFactory:
+        implement: Nepttune\Component\ILoginFormFactory
+        arguments:
+            - '%redirectSignIn%'
+    configMenuFactory:
+        implement: Nepttune\Component\IConfigMenuFactory
+        arguments:
+            - '%configMenu%'
+
+decorator:
+    Nepttune\Presenter\BaseAuthPresenter:
+        setup:
+            - injectAdminParameters(%admin%)
+
+translation:
+    dirs:
+        - '%appDir%/../vendor/nepttune/admin/lang'
