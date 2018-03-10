@@ -18,14 +18,19 @@ final class LoginForm extends BaseFormComponent
     /** @var \Nette\Http\Request */
     protected $request;
 
+    /** @var  \Nette\Security\User */
+    protected $user;
+
     public function __construct(
         string $redirectSignIn,
         \Nepttune\Model\LoginLogModel $loginLogModel,
-        \Nette\Http\Request $request)
+        \Nette\Http\Request $request,
+        \Nette\Security\User $user)
     {
         $this->redirectSignIn = $redirectSignIn;
         $this->loginLogModel = $loginLogModel;
         $this->request = $request;
+        $this->user = $user;
     }
 
     protected function modifyForm(Form $form) : Form
@@ -53,8 +58,8 @@ final class LoginForm extends BaseFormComponent
 
         try
         {
-            $this->getPresenter()->getUser()->login($values->username, $values->password);
-            $this->getPresenter()->getUser()->setExpiration(0, TRUE);
+            $this->user->login($values->username, $values->password);
+            $this->user->setExpiration(0, TRUE);
         }
         catch (\Nette\Security\AuthenticationException $e)
         {
