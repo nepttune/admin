@@ -16,7 +16,9 @@ final class UserList extends BaseListComponent
         $grid->addColumnText('username', 'admin.username')
             ->setSortable();
 
-        $grid->addToolbarButton(':add', 'global.add');
+        $grid->addToolbarButton(':add', 'global.add')
+            ->setIcon('plus')
+            ->setClass('btn btn-primary');
 
         return $grid;
     }
