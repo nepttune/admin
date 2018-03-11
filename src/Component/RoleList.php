@@ -16,7 +16,9 @@ final class RoleList extends BaseListComponent
         $grid->addColumnText('name', 'global.name')
             ->setSortable();
 
-        $grid->addToolbarButton(':add', 'global.add');
+        $grid->addToolbarButton(':add', 'global.add')
+            ->setIcon('plus')
+            ->setClass('btn btn-primary');
 
         return $grid;
     }
