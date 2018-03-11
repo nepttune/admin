@@ -19,11 +19,11 @@ final class UserForm extends BaseFormComponent
 
     protected function modifyForm(Form $form) : Form
     {
-        $form->addText('username', 'Uživatelské jméno')
+        $form->addText('username', 'admin.username')
             ->setRequired();
-        $form->addPassword('password', 'Heslo')
+        $form->addPassword('password', 'admin.password')
             ->setRequired();
-        $form->addPassword('password2', 'Heslo znovu')
+        $form->addPassword('password2', 'admin.password_again')
             ->setRequired()
             ->addCondition($form::EQUAL, $form['password']);
 

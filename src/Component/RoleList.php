@@ -13,10 +13,10 @@ final class RoleList extends BaseListComponent
 
     protected function modifyList(DataGrid $grid) : DataGrid
     {
-        $grid->addColumnText('username', 'Přihlašovací jméno')
+        $grid->addColumnText('name', 'global.name')
             ->setSortable();
 
-        $grid->addToolbarButton(':Admin:User:add', 'Přidat');
+        $grid->addToolbarButton(':add', 'global.add');
 
         return $grid;
     }

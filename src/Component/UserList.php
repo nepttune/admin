@@ -13,10 +13,10 @@ final class UserList extends BaseListComponent
 
     protected function modifyList(DataGrid $grid) : DataGrid
     {
-        $grid->addColumnText('username', 'Přihlašovací jméno')
+        $grid->addColumnText('username', 'admin.username')
             ->setSortable();
 
-        $grid->addToolbarButton(':add', 'Přidat');
+        $grid->addToolbarButton(':add', 'global.add');
 
         return $grid;
     }

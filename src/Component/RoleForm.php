@@ -19,7 +19,7 @@ final class RoleForm extends BaseFormComponent
 
     protected function modifyForm(Form $form) : Form
     {
-        $form->addText('name', 'Název role')
+        $form->addText('name', 'global.name')
             ->setRequired();
 
         return $form;

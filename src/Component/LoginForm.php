@@ -35,8 +35,8 @@ final class LoginForm extends BaseFormComponent
 
     protected function modifyForm(Form $form) : Form
     {
-        $form->addText('username', 'Username')->setRequired();
-        $form->addPassword('password', 'Password')->setRequired();
+        $form->addText('username', 'admin.username')->setRequired();
+        $form->addPassword('password', 'admin.password')->setRequired();
 
         $ids = $this->loginLogModel->getTable()
             ->where('ip_address', inet_pton($this->request->getRemoteAddress()))
@@ -46,7 +46,7 @@ final class LoginForm extends BaseFormComponent
 
         if ($this->loginLogModel->getTable()->where('id', $ids)->where('result', 'failure')->count() === 5)
         {
-            $form->addReCaptcha('recaptcha', 'Security check', 'Please prove you are not a robot.');
+            $form->addReCaptcha('recaptcha', 'form.recaptcha', 'form.error.recaptcha');
         }
 
         return $form;
@@ -79,7 +79,7 @@ final class LoginForm extends BaseFormComponent
             $this->getPresenter()->redirect('this');
         }
 
-        $this->getPresenter()->flashMessage('Successfully logged in.', 'success');
+        $this->getPresenter()->flashMessage($this->translator->translate('admin.flash.sign_in'), 'success');
         $this->getPresenter()->restoreRequest($this->getPresenter()->getParameter('backlink'));
         $this->getPresenter()->redirect($this->redirectSignIn);
     }
