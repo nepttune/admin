@@ -6,11 +6,8 @@ use \Nette\Application\UI\Form;
 
 final class UserForm extends BaseFormComponent
 {
-    const REDIRECT = ':edit';
-    const REDIRECT_ID = true;
-    
+    const REDIRECT = ':default';
     const SAVE_NEXT = true;
-    const SAVE_LIST = true;
 
     public function __construct(\Nepttune\Model\UserModel $userModel)
     {
@@ -36,6 +33,6 @@ final class UserForm extends BaseFormComponent
         $values->registered = new \Nette\DateTime();
         $values->password = \Nette\Security\Passwords::hash($values->password);
 
-        parent::formSuccess($values);
+        parent::formSuccess($form, $values);
     }
 }
