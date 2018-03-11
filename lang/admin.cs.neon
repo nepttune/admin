@@ -1,1 +1,31 @@
+member_since: 'Členem od'
+profile: 'Profil'
 
+login: 'Přihlásit'
+logout: 'Odhlásit'
+
+username: 'Uživatelské jméno'
+password: 'Heslo'
+password_again: 'Heslo znovu'
+
+flash:
+    sign_in: 'Uživatel úspěšně přihlášen.'
+    sign_out: 'Uživatel úspěšně odhlášen.'
+
+sign:
+    in:
+        title: 'Přihlášení'
+user:
+    default:
+        title: 'Uživatelé'
+        description: 'Zde se nachází přehled uživatelů.'
+    add:
+        title: 'Přidání uživatele'
+        description: 'Zde můžete přidat uživatele.'
+role:
+    default:
+        title: 'Role'
+        description: 'Zde se nachází přehled rolí.'
+    add:
+        title: 'Přidání role'
+        description: 'Zde můžete přidat roli.'

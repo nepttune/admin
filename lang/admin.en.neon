@@ -1,1 +1,31 @@
+member_since: 'Member since'
+profile: 'Profile'
 
+login: 'Login'
+logout: 'Logout'
+
+username: 'Username'
+password: 'Password'
+password_again: 'Password again'
+
+flash:
+    sign_in: 'Successfully logged in.'
+    sign_out: 'Successfully logged out.'
+
+sign:
+    in:
+        title: 'Sign in'
+user:
+    default:
+        title: 'User'
+        description: 'Zde se nachází přehled uživatelů.'
+    add:
+        title: 'Add user'
+        description: 'You can create new user on this page.'
+role:
+    default:
+        title: 'Role'
+        description: 'Zde se nachází přehled rolí.'
+    add:
+        title: 'Add role'
+        description: 'You can create new role on this page.'
