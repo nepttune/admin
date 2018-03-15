@@ -5,22 +5,33 @@
         {continueIf isset($entry['role']) && !$user->isInRole($entry['role'])}
 
         {if is_array($entry['dest'])}
-            <li class="treeview">
-                <a href="#">{icon $entry['icon']} <span>{$entry['name']}</span>
-                    <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
+            {var $currentSection = false}
+            {capture $tempBlock}
                 {foreach $entry['dest'] as $subentry}
                     {continueIf isset($subentry['role']) && !$user->isInRole($subentry['role'])}
 
-                    <li>
+                    {var $currentLink = $presenter->isLinkCurrent($subentry['dest'])}
+
+                    {if $currentLink}
+                        {php $currentSection = true}
+                    {/if}
+
+                    <li n:class="$currentLink ? active">
                         <a href="{plink $subentry['dest']}" n:class="isset($entry['class']) ? $entry['class'], isset($subentry['class']) ? $subentry['class']">
                             {$subentry['name']}
                         </a>
                     </li>
                 {/foreach}
+            {/capture}
+
+            <li n:class="treeview, $currentSection ? menu-open, $currentSection ? active">
+                <a href="#">{icon $entry['icon']} <span>{$entry['name']}</span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu" {if $currentSection}style="display: block"{/if}>
+                    {$tempBlock}
                 </ul>
             </li>
         {else}
