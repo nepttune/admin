@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `user`
 
   INDEX `user_username_index` (`username`),
   INDEX `user_active_index` (`active`)
-);
+) ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS `role`
 (
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `role`
   `active`     TINYINT DEFAULT 1           NOT NULL,
 
   INDEX `role_active_index` (`active`)
-);
+) ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS `user_role`
 (
@@ -28,8 +28,8 @@ CREATE TABLE IF NOT EXISTS `user_role`
   CONSTRAINT `user_role_user_id_fk`
   FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `user_role_role_id_fk`
-  FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
-);
+  FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
+) ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS `log_login` 
 (
@@ -40,4 +40,4 @@ CREATE TABLE IF NOT EXISTS `log_login`
   `datetime`   DATETIME                    NOT NULL,
   
   INDEX `log_login_ip_address_index` (`ip_address`)
-);
+) ENGINE = INNODB;
