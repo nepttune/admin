@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace Nepttune\Model;
 
 final class SubscriptionTypeModel extends \Nepttune\Model\BaseModel
 {
