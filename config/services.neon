@@ -5,6 +5,8 @@ services:
     - Nepttune\Model\LoginLogModel
     - Nepttune\Model\RoleModel
     - Nepttune\Model\UserRoleModel
+    - Nepttune\Model\SubscriptionTypeModel
+    - Nepttune\Model\UserSubscriptionTypeModel
     - Nepttune\Model\Authenticator
     authenticator: @Nepttune\Model\Authenticator
 
