@@ -10,7 +10,7 @@ class AdminRouterFactory extends RouterFactory
     /**
      * @return \Nette\Application\IRouter
      */
-    public static function createStandardRouter()
+    public static function createStandardRouter() : \Nette\Application\IRouter
     {
         $router = parent::createStandardRouter();
 
