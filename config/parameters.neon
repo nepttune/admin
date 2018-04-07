@@ -2,8 +2,6 @@ parameters:
     dest:
         adminHomepage: ':Admin:Default:default'
         userProfile: ':Admin:Profile:view'   # false or dest
-        signOut: ':Admin:Sign:out'
-        signIn: ':Admin:Sign:in'
 
     admin:
         notifications: false
@@ -11,16 +9,16 @@ parameters:
         search: false
         sidebar: false
 
+    adminModule: 'admin'
     redirectSignIn: ':Admin:Default:default'
-    redirectSignOut: ':Admin:Sign:in'
 
     configMenu:
         Menu:
             user:
                 name: 'Users'
                 icon: 'user'
-                dest: ':Admin:User:default'
+                dest: ':User:default'
             role:
                 name: 'Roles'
                 icon: 'bolt'
-                dest: ':Admin:Role:default'
+                dest: ':Role:default'
