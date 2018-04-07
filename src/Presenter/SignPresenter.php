@@ -1,6 +1,6 @@
 <?php
 
-namespace App\AdminModule\Presenter;
+namespace App\Presenter;
 
 final class SignPresenter extends \Nepttune\Presenter\BasePresenter
 {
@@ -13,20 +13,12 @@ final class SignPresenter extends \Nepttune\Presenter\BasePresenter
      */
     public $iLoginFormFactory;
 
-    /** @var  string */
-    protected $redirectSignOut;
-
-    public function __construct(string $redirectSignOut)
-    {
-        $this->redirectSignOut = $redirectSignOut;
-    }
-
     public function actionOut()
     {
         $this->getUser()->logout();
 
         $this->flashMessage($this->translator->translate('admin.flash.sign_out'), 'success');
-        $this->redirect($this->redirectSignOut);
+        $this->redirect(':Sign:in');
     }
 
     protected function createComponentLoginForm()
