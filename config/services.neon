@@ -1,6 +1,6 @@
 services:
     - Nepttune\AdminRouterFactory
-    router: @Nepttune\AdminRouterFactory::createSubdomainRouter
+    router: @Nepttune\AdminRouterFactory::createSubdomainRouter('%adminModule%')
 
     - Nepttune\Model\LoginLogModel
     - Nepttune\Model\RoleModel
@@ -9,8 +9,6 @@ services:
     - Nepttune\Model\UserSubscriptionTypeModel
     - Nepttune\Model\Authenticator
     authenticator: @Nepttune\Model\Authenticator
-
-    - App\AdminModule\Presenter\SignPresenter(%redirectSignOut%)
 
     - Nepttune\Component\IBreadcrumbFactory
     - Nepttune\Component\IUserFormFactory
