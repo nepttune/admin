@@ -1,6 +1,6 @@
 <?php
 
-namespace App\AdminModule\Presenter;
+namespace App\Presenter;
 
 final class UserPresenter extends \Nepttune\Presenter\BaseAuthPresenter
 {
