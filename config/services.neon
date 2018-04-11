@@ -15,10 +15,7 @@ services:
     - Nepttune\Component\IUserListFactory
     - Nepttune\Component\IRoleFormFactory
     - Nepttune\Component\IRoleListFactory
-    loginFormFactory:
-        implement: Nepttune\Component\ILoginFormFactory
-        arguments:
-            - '%redirectSignIn%'
+    - Nepttune\Component\ILoginFormFactory
     configMenuFactory:
         implement: Nepttune\Component\IConfigMenuFactory
         arguments:
