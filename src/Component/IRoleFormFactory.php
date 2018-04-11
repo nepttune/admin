@@ -5,5 +5,5 @@ namespace Nepttune\Component;
 interface IRoleFormFactory
 {
     /** @return RoleForm */
-    public function create();
+    public function create() : RoleForm;
 }
