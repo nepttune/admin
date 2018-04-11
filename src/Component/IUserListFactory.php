@@ -5,5 +5,5 @@ namespace Nepttune\Component;
 interface IUserListFactory
 {
     /** @return UserList */
-    public function create();
+    public function create() : UserList;
 }
