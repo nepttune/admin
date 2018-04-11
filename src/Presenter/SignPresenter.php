@@ -23,6 +23,8 @@ final class SignPresenter extends \Nepttune\Presenter\BasePresenter
 
     protected function createComponentLoginForm()
     {
-        return $this->iLoginFormFactory->create();
+        $control = $this->iLoginFormFactory->create();
+        $control->setRedirect($this->dest['adminHomepage']);
+        return $control;
     }
 }
