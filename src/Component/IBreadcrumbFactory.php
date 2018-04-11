@@ -5,5 +5,5 @@ namespace Nepttune\Component;
 interface IBreadcrumbFactory
 {
     /** @return Breadcrumb */
-    public function create();
+    public function create() : Breadcrumb;
 }
