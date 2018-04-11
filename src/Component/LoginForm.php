@@ -22,17 +22,20 @@ final class LoginForm extends BaseFormComponent
     protected $user;
 
     public function __construct(
-        string $redirectSignIn,
         \Nepttune\Model\LoginLogModel $loginLogModel,
         \Nette\Http\Request $request,
         \Nette\Security\User $user)
     {
-        $this->redirectSignIn = $redirectSignIn;
         $this->loginLogModel = $loginLogModel;
         $this->request = $request;
         $this->user = $user;
     }
 
+    public function setRedirect(string $redirect)
+    {
+        $this->redirectSignIn = $redirect;
+    }
+    
     protected function modifyForm(Form $form) : Form
     {
         $form->addText('username', 'admin.username')->setRequired();
