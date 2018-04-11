@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * This file is part of Nepttune (https://www.peldax.com)
+ *
+ * Copyright (c) 2018 Václav Pelíšek (info@peldax.com)
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license. For more information, see
+ * <https://www.peldax.com>.
+ */
+
+declare(strict_types = 1);
+
 namespace Nepttune\Component;
 
 use \Nette\Application\UI\Form;
@@ -35,19 +47,19 @@ final class LoginForm extends BaseFormComponent
     {
         $this->redirectSignIn = $redirect;
     }
-    
+
     protected function modifyForm(Form $form) : Form
     {
         $form->addText('username', 'admin.username')->setRequired();
         $form->addPassword('password', 'admin.password')->setRequired();
 
-        $ids = $this->loginLogModel->getTable()
+        $ids = $this->loginLogModel->findAll()
             ->where('ip_address', inet_pton($this->request->getRemoteAddress()))
             ->order('id DESC')
             ->limit(5)
             ->fetchPairs(null, 'id');
 
-        if ($this->loginLogModel->getTable()->where('id', $ids)->where('result', 'failure')->count() === 5)
+        if ($this->loginLogModel->findAll()->where('id', $ids)->where('result', 'failure')->count() === 5)
         {
             $form->addReCaptcha('recaptcha', 'form.recaptcha', 'form.error.recaptcha');
         }
