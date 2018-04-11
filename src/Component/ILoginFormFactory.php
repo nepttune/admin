@@ -5,5 +5,5 @@ namespace Nepttune\Component;
 interface ILoginFormFactory
 {
     /** @return LoginForm */
-    public function create();
+    public function create() : LoginForm;
 }
