@@ -14,7 +14,7 @@ abstract class BaseAuthPresenter extends BasePresenter
      * @inject
      * @var  \Nepttune\Component\IBreadcrumbFactory
      */
-    public $iBreadbrumbFactory;
+    public $iBreadcrumbFactory;
 
     /** @var  array */
     protected $admin;
@@ -58,6 +58,6 @@ abstract class BaseAuthPresenter extends BasePresenter
 
     protected function createComponentBreadcrumb()
     {
-        return $this->iBreadbrumbFactory->create();
+        return $this->iBreadcrumbFactory->create();
     }
 }
