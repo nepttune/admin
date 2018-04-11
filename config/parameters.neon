@@ -10,7 +10,6 @@ parameters:
         sidebar: false
 
     adminModule: 'admin'
-    redirectSignIn: ':Admin:Default:default'
 
     configMenu:
         Menu:
