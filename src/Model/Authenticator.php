@@ -16,8 +16,18 @@ namespace Nepttune\Model;
 
 use Nette\Security as NS;
 
-final class Authenticator extends UserModel implements NS\IAuthenticator
+final class Authenticator implements NS\IAuthenticator
 {
+    use \Nette\SmartObject;
+
+    /** @var UserModel */
+    private $userModel;
+
+    public function __construct(UserModel $userModel)
+    {
+        $this->userModel = $userModel;
+    }
+    
     public function authenticate(array $credentials)
     {
         list($username, $password) = $credentials;
