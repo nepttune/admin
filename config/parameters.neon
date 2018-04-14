@@ -25,7 +25,3 @@ parameters:
                 name: 'Users'
                 icon: 'user'
                 dest: ':User:default'
-            role:
-                name: 'Roles'
-                icon: 'bolt'
-                dest: ':Role:default'
