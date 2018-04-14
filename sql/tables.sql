@@ -29,25 +29,18 @@ CREATE TABLE IF NOT EXISTS `user`
   INDEX `user_active_index` (`active`)
 ) ENGINE = INNODB;
 
-CREATE TABLE IF NOT EXISTS `role`
-(
-  `id`         INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  `name`       VARCHAR(255)                NOT NULL,
-  `active`     TINYINT DEFAULT 1           NOT NULL,
-
-  INDEX `role_active_index` (`active`)
-) ENGINE = INNODB;
-
-CREATE TABLE IF NOT EXISTS `user_role`
+CREATE TABLE IF NOT EXISTS `user_access`
 (
   `id`         INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `user_id`    INT(10) UNSIGNED            NOT NULL,
-  `role_id`    INT(10) UNSIGNED            NOT NULL,
+  `resource`   VARCHAR(255)                NOT NULL,
+  `privilege`  VARCHAR(255)                NOT NULL,
 
-  CONSTRAINT `user_role_user_id_fk`
+  CONSTRAINT `user_access_user_id_fk`
   FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `user_role_role_id_fk`
-  FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
+
+  INDEX `user_access_resource_index` (`resource`),
+  INDEX `user_access_privilege_index` (`privilege`)
 ) ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS `subscription_type` (
