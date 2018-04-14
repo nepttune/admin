@@ -14,7 +14,7 @@ declare(strict_types = 1);
 
 namespace Nepttune\Model;
 
-class UserModel extends BaseModel
+final class UserModel extends BaseModel
 {
     const TABLE_NAME = 'user';
 }
