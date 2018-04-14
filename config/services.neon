@@ -9,20 +9,19 @@
 services:
     - Nepttune\AdminRouterFactory
     router: @Nepttune\AdminRouterFactory::createSubdomainRouter('%adminModule%')
+    - Nepttune\Model\Authenticator
+    - Nepttune\Model\Authorizator
+    authenticator: @Nepttune\Model\Authenticator
 
     - Nepttune\Model\LoginLogModel
-    - Nepttune\Model\RoleModel
-    - Nepttune\Model\UserRoleModel
+    - Nepttune\Model\UserModel
+    - Nepttune\Model\UserAccessModel
     - Nepttune\Model\SubscriptionTypeModel
     - Nepttune\Model\UserSubscriptionTypeModel
-    - Nepttune\Model\Authenticator
-    authenticator: @Nepttune\Model\Authenticator
 
     - Nepttune\Component\IBreadcrumbFactory
     - Nepttune\Component\IUserFormFactory
     - Nepttune\Component\IUserListFactory
-    - Nepttune\Component\IRoleFormFactory
-    - Nepttune\Component\IRoleListFactory
     - Nepttune\Component\ILoginFormFactory
     configMenuFactory:
         implement: Nepttune\Component\IConfigMenuFactory
