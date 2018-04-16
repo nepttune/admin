@@ -30,10 +30,13 @@ user:
     add:
         title: 'Add user'
         description: 'You can create new user on this page.'
-role:
-    default:
-        title: 'Role'
-        description: 'Zde se nachází přehled rolí.'
-    add:
-        title: 'Add role'
-        description: 'You can create new role on this page.'
+
+breadcrumb:
+    home: 'Home'
+    user: 'Users'
+    add: 'Add'
+
+error:
+    user: 'User not found.'
+    password: 'Invalid password.'
+
