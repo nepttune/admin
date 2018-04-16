@@ -16,20 +16,30 @@ namespace Nepttune\Component;
 
 final class Breadcrumb extends BaseComponent
 {
+    use \Nepttune\TI\TTranslator;
+
+    /** @var string */
+    protected $adminModule;
+
+    public function __construct(string $adminModule)
+    {
+        $this->adminModule = ucfirst($adminModule);
+    }
+
     public function render() : void
     {
-        $module = $this->getPresenter()->getModule();
+        $module = $this->getPresenter()->getModule() ?: $this->adminModule;
         $presenter = $this->getPresenter()->getNameWM();
         $action = $this->getPresenter()->getAction();
 
         $breadcrumbs = [];
 
-        if (class_exists('\App\AppModule\Presenter\DefaultPresenter'))
+        if (class_exists("\App\{$this->adminModule}Module\Presenter\DefaultPresenter"))
         {
             $breadcrumbs[':App:Default:default'] = 'Home';
         }
 
-        if ($module !== 'App')
+        if ($module !== $this->adminModule)
         {
             $breadcrumbs['Default:default'] = $module;
         }
