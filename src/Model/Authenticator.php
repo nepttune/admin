@@ -31,19 +31,19 @@ final class Authenticator implements NS\IAuthenticator
     public function authenticate(array $credentials)
     {
         list($username, $password) = $credentials;
-        $row = $this->findAll()
+        $row = $this->userModel->findAll()
             ->where('username', $username)
             ->where('active', 1)
             ->fetch();
 
         if (!$row)
         {
-            throw new NS\AuthenticationException('User not found.');
+            throw new NS\AuthenticationException('admin.error.user');
         }
 
         if (!NS\Passwords::verify($password, $row->password))
         {
-            throw new NS\AuthenticationException('Invalid password.');
+            throw new NS\AuthenticationException('admin.error.password');
         }
 
         $data = $row->toArray();
