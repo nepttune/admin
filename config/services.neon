@@ -32,6 +32,9 @@ decorator:
     Nepttune\Presenter\BaseAuthPresenter:
         setup:
             - injectAdminParameters(%admin%)
+    Nepttune\TI\IRestricted:
+        setup:
+            - injectRestricted
 
 translation:
     dirs:
