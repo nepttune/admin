@@ -16,24 +16,25 @@ namespace Nepttune\Presenter;
 
 abstract class BaseAuthPresenter extends BasePresenter
 {
-    /**
-     * @inject
-     * @var  \Nepttune\Component\IConfigMenuFactory
-     */
-    public $iConfigMenuFactory;
+    use \Nepttune\TI\TRestricted;
 
-    /**
-     * @inject
-     * @var  \Nepttune\Component\IBreadcrumbFactory
-     */
-    public $iBreadcrumbFactory;
+    /** @var  \Nepttune\Component\IConfigMenuFactory */
+    protected $iConfigMenuFactory;
+
+    /** @var  \Nepttune\Component\IBreadcrumbFactory */
+    protected $iBreadcrumbFactory;
 
     /** @var  array */
     protected $admin;
 
-    public function injectAdminParameters(array $admin)
+    public function injectAdminParameters(
+        array $admin,
+        \Nepttune\Component\IConfigMenuFactory $IConfigMenuFactory,
+        \Nepttune\Component\IBreadcrumbFactory $IBreadcrumbFactory)
     {
         $this->admin = $admin;
+        $this->iConfigMenuFactory = $IConfigMenuFactory;
+        $this->iBreadcrumbFactory = $IBreadcrumbFactory;
     }
 
     protected function startup()
@@ -41,6 +42,11 @@ abstract class BaseAuthPresenter extends BasePresenter
         if (!$this->user->isLoggedIn())
         {
             $this->redirect(':Sign:in', ['backlink' => $this->storeRequest()]);
+        }
+        
+        if (!$this->isAllowed($this->getUser()->getId(), $this->getAction()))
+        {
+            $this->redirect($this->dest['adminHomepage']);
         }
 
         parent::startup();
