@@ -12,6 +12,6 @@
     <li>{icon angle-double-right}</li>
 
     {foreach $breadcrumbs as $action => $name}
-        <li><a {if !$iterator->isLast()}href="{plink $action}"{/if}>{$name}</a></li>
+        <li><a {if !$iterator->isLast()}href="{plink $action}"{/if}>{_admin.breadcrumb.$name}</a></li>
     {/foreach}
 </ol>
