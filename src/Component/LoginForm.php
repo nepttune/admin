@@ -90,7 +90,7 @@ final class LoginForm extends BaseFormComponent
 
         if ($failure)
         {
-            $this->getPresenter()->flashMessage($failure, 'danger');
+            $this->getPresenter()->flashMessage($this->translator->translate($failure), 'danger');
             $this->getPresenter()->redirect('this');
         }
 
