@@ -25,8 +25,7 @@ CREATE TABLE IF NOT EXISTS `user`
   `registered` DATE                        NOT NULL,
   `active`     TINYINT DEFAULT 1           NOT NULL,
 
-  INDEX `user_username_index` (`username`),
-  INDEX `user_active_index` (`active`)
+  INDEX `user_active_username_index` (`active`, `username`)
 ) ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS `user_access`
@@ -39,8 +38,7 @@ CREATE TABLE IF NOT EXISTS `user_access`
   CONSTRAINT `user_access_user_id_fk`
   FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
 
-  INDEX `user_access_resource_index` (`resource`),
-  INDEX `user_access_privilege_index` (`privilege`)
+  INDEX `user_access_user_id_resource_privilege_index` (`user_id`, `resource`, `privilege`)
 ) ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS `subscription_type` (
