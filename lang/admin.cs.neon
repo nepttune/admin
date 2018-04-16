@@ -30,10 +30,13 @@ user:
     add:
         title: 'Přidání uživatele'
         description: 'Zde můžete přidat uživatele.'
-role:
-    default:
-        title: 'Role'
-        description: 'Zde se nachází přehled rolí.'
-    add:
-        title: 'Přidání role'
-        description: 'Zde můžete přidat roli.'
+
+breadcrumb:
+    home: 'Domov'
+    user: 'Uživatelé'
+    add: 'Přidání'
+
+error:
+    user: 'Uživatel nenalezen.'
+    password: 'Nesprávné heslo.'
+
