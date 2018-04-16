@@ -34,24 +34,24 @@ final class Breadcrumb extends BaseComponent
 
         $breadcrumbs = [];
 
-        if (class_exists("\App\{$this->adminModule}Module\Presenter\DefaultPresenter"))
+        if (class_exists("\App\\{$this->adminModule}Module\Presenter\DefaultPresenter"))
         {
-            $breadcrumbs[':App:Default:default'] = 'Home';
+            $breadcrumbs[":{$this->adminModule}:Default:default"] = 'home';
         }
 
         if ($module !== $this->adminModule)
         {
-            $breadcrumbs['Default:default'] = $module;
+            $breadcrumbs['Default:default'] = lcfirst($module);
         }
 
         if ($presenter !== 'Default')
         {
-            $breadcrumbs[':default'] = $presenter;
+            $breadcrumbs[':default'] = lcfirst($presenter);
         }
 
         if ($action !== 'default')
         {
-            $breadcrumbs['X'] = ucfirst($action);
+            $breadcrumbs['X'] = lcfirst($action);
         }
 
         $this->template->breadcrumbs = $breadcrumbs;
