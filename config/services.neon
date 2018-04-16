@@ -19,10 +19,13 @@ services:
     - Nepttune\Model\SubscriptionTypeModel
     - Nepttune\Model\UserSubscriptionTypeModel
 
-    - Nepttune\Component\IBreadcrumbFactory
     - Nepttune\Component\IUserFormFactory
     - Nepttune\Component\IUserListFactory
     - Nepttune\Component\ILoginFormFactory
+    breadCrumbFactory:
+        implement: Nepttune\Component\IBreadcrumbFactory
+        arguments:
+            - '%adminModule%'
     configMenuFactory:
         implement: Nepttune\Component\IConfigMenuFactory
         arguments:
