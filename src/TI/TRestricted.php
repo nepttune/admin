@@ -19,22 +19,20 @@ trait TRestricted
     /** @var \Nepttune\Model\Authorizator */
     private $authorizator;
 
-    /** @var \Kdyby\Redis\RedisStorage */
-    private $cacheStorage;
+    /** @var \Nette\Caching\Cache */
+    private $cache;
 
     public function injectRestricted(
         \Nepttune\Model\Authorizator $authorizator,
-        \Kdyby\Redis\RedisStorage $redisStorage) : void
+        \Nette\Caching\IStorage $storage) : void
     {
         $this->authorizator = $authorizator;
-        $this->cacheStorage = $redisStorage;
+        $this->cache = new \Nette\Caching\Cache($storage);
     }
 
     public function isAllowed(int $userId, string $action) : bool
     {
-        $cache = new \Nette\Caching\Cache($this->cacheStorage);
-
-        if (!$cache->call([static::class, 'isRestricted'], $action))
+        if (!$this->cache->call([static::class, 'isRestricted'], $action))
         {
             return true;
         }
