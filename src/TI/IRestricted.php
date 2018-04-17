@@ -18,7 +18,7 @@ interface IRestricted
 {
     public function injectRestricted(
         \Nepttune\Model\Authorizator $authorizator,
-        \Kdyby\Redis\RedisStorage $redisStorage) : void;
+        \Nette\Caching\IStorage $storage) : void;
 
     public function isAllowed(int $userId, string $privilege) : bool;
 
