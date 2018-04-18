@@ -23,6 +23,8 @@ final class Breadcrumb extends BaseComponent
 
     public function __construct(string $adminModule)
     {
+        parent::__construct();
+        
         $this->adminModule = ucfirst($adminModule);
     }
 
