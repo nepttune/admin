@@ -20,6 +20,8 @@ final class UserList extends BaseListComponent
 {
     public function __construct(\Nepttune\Model\UserModel $userModel)
     {
+        parent::__construct();
+        
         $this->repository = $userModel;
     }
 
