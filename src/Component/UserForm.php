@@ -23,6 +23,8 @@ final class UserForm extends BaseFormComponent
 
     public function __construct(\Nepttune\Model\UserModel $userModel)
     {
+        parent::__construct();
+        
         $this->repository = $userModel;
     }
 
