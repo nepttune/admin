@@ -45,7 +45,7 @@ final class UserForm extends BaseFormComponent
     public function formSuccess(\Nette\Application\UI\Form $form, \stdClass $values) : void
     {
         unset($values->password2);
-        $values->registered = new \Nette\DateTime();
+        $values->registered = new \Nette\Utils\DateTime();
         $values->password = \Nette\Security\Passwords::hash($values->password);
 
         parent::formSuccess($form, $values);
