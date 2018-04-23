@@ -21,13 +21,6 @@ class AdminRouterFactory extends RouterFactory
 {
     public static function prependDefault(RouteList $router, string $base)
     {
-        $router->prepend(new Route($base . 'role/<action>[/<id>]', [
-            'locale' => [Route::PATTERN => '[a-z]{2}'],
-            'presenter' => 'Role',
-            'action' => 'default',
-            'id' => [Route::PATTERN => '\d+']
-        ]));
-
         $router->prepend(new Route($base . 'user/<action>[/<id>]', [
             'locale' => [Route::PATTERN => '[a-z]{2}'],
             'presenter' => 'User',
