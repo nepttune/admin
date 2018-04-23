@@ -27,7 +27,7 @@ trait TRestricted
         \Nette\Caching\IStorage $storage) : void
     {
         $this->authorizator = $authorizator;
-        $this->cache = new \Nette\Caching\Cache($storage);
+        $this->cache = new \Nette\Caching\Cache($storage, 'Nepttune.Authorizator');
     }
 
     public function isAllowed(int $userId, string $action) : bool
