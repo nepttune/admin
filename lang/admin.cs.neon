@@ -35,6 +35,7 @@ breadcrumb:
     home: 'Domov'
     user: 'Uživatelé'
     add: 'Přidání'
+    edit: 'Editace'
 
 error:
     user: 'Uživatel nenalezen.'
