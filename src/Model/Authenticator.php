@@ -48,6 +48,6 @@ final class Authenticator implements NS\IAuthenticator
 
         $data = $row->toArray();
         unset($data['password']);
-        return new \Nette\Security\Identity($row->id, $row->role, $data);
+        return new \Nette\Security\Identity($row->id, null, $data);
     }
 }
