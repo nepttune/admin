@@ -35,6 +35,7 @@ breadcrumb:
     home: 'Home'
     user: 'Users'
     add: 'Add'
+    edit: 'Edit'
 
 error:
     user: 'User not found.'
