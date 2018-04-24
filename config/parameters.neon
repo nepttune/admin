@@ -17,8 +17,6 @@ parameters:
         search: false
         sidebar: false
 
-    adminModule: 'admin'
-
     configMenu:
         Menu:
             user:
