@@ -19,43 +19,51 @@ use Nette\Application\Routers\RouteList,
 
 class AdminRouterFactory extends RouterFactory
 {
-    public static function prependDefault(RouteList $router, string $base)
+    const ADMIN_MODULE = 'admin';
+
+    protected static function addAdminRoutes(RouteList $router, string $base) : RouteList
     {
-        $router->prepend(new Route($base . 'user/<action>[/<id>]', [
+        $router[] = new Route($base . 'user/<action>[/<id>]', [
             'locale' => [Route::PATTERN => '[a-z]{2}'],
             'presenter' => 'User',
-            'action' => 'default'
-        ]));
-
-        $router->prepend(new Route($base . 'sign/<action>', [
-            'locale' => [Route::PATTERN => '[a-z]{2}'],
-            'presenter' => 'Sign',
             'action' => 'default',
             'id' => [Route::PATTERN => '\d+']
-        ]));
-    }
+        ]);
 
-    public static function createSubdomainRouter(string $module = 'admin') : RouteList
-    {
-        $router = parent::createSubdomainRouter();
-
-        static::prependDefault($router, "//{$module}.%domain%/[<locale>/]");
+        $router[] = new Route($base . 'sign/<action>', [
+            'locale' => [Route::PATTERN => '[a-z]{2}'],
+            'presenter' => 'Sign',
+            'action' => 'default'
+        ]);
 
         return $router;
     }
 
-    public static function createStandardRouter(string $module = 'admin') : RouteList
+    public static function createSubdomainRouter() : RouteList
     {
-        $router = parent::createStandardRouter();
+        $base = '//' . lcfirst(static::ADMIN_MODULE) . '.%domain%/[<locale>/]';
 
-        $router->prepend(new Route("/[<locale>/]{$module}/<presenter>/<action>[/<id>]", [
+        $router = static::createRouteList();
+        $router = static::addAdminRoutes($router, $base);
+        $router = static::addSubdomainRoutes($router);
+
+        return $router;
+    }
+
+    public static function createStandardRouter() : RouteList
+    {
+        $base = '/[<locale>/]' . lcfirst(static::ADMIN_MODULE) . '/';
+
+        $router = static::createRouteList();
+        $router = static::addAdminRoutes($router, $base);
+        $router[] = new Route($base . '<presenter>/<action>[/<id>]', [
             'locale' => [Route::PATTERN => '[a-z]{2}'],
+            'module' => static::ADMIN_MODULE,
             'presenter' => 'Default',
             'action' => 'default',
             'id' => [Route::PATTERN => '\d+']
-        ]));
-
-        static::prependDefault($router, "/[<locale>/]{$module}/");
+        ]);
+        $router = static::addStandardRoutes($router);
 
         return $router;
     }
