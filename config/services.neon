@@ -24,7 +24,7 @@ services:
     breadCrumbFactory:
         implement: Nepttune\Component\IBreadcrumbFactory
         arguments:
-            - '%adminModule%'
+            - @routerFactory
     configMenuFactory:
         implement: Nepttune\Component\IConfigMenuFactory
         arguments:
