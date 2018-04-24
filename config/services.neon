@@ -7,8 +7,7 @@
 # <https://www.peldax.com>.
 
 services:
-    - Nepttune\AdminRouterFactory
-    router: @Nepttune\AdminRouterFactory::createSubdomainRouter()
+    routerFactory: Nepttune\AdminRouterFactory
     - Nepttune\Model\Authenticator
     - Nepttune\Model\Authorizator
     authenticator: @Nepttune\Model\Authenticator
