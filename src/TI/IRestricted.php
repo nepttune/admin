@@ -20,7 +20,7 @@ interface IRestricted
         \Nepttune\Model\Authorizator $authorizator,
         \Nette\Caching\IStorage $storage) : void;
 
-    public function isAllowed(int $userId, string $privilege) : bool;
+    public function isAllowed(\Nette\Security\User $user, string $privilege) : bool;
 
     public static function isRestricted(string $action) : bool;
 }
