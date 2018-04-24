@@ -21,11 +21,11 @@ final class Breadcrumb extends BaseComponent
     /** @var string */
     protected $adminModule;
 
-    public function __construct(string $adminModule)
+    public function __construct(\Nepttune\AdminRouterFactory $router)
     {
         parent::__construct();
         
-        $this->adminModule = ucfirst($adminModule);
+        $this->adminModule = ucfirst($router::ADMIN_MODULE);
     }
 
     public function render() : void
