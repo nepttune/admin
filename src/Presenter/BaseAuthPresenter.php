@@ -44,7 +44,7 @@ abstract class BaseAuthPresenter extends BasePresenter
             $this->redirect(':Sign:in', ['backlink' => $this->storeRequest()]);
         }
         
-        if (!$this->isAllowed($this->getUser()->getId(), $this->getAction()))
+        if (!$this->isAllowed($this->getUser(), $this->getAction()))
         {
             $this->redirect($this->dest['adminHomepage']);
         }
