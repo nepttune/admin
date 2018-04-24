@@ -30,8 +30,15 @@ trait TRestricted
         $this->cache = new \Nette\Caching\Cache($storage, 'Nepttune.Authorizator');
     }
 
-    public function isAllowed(int $userId, string $action) : bool
+    public function isAllowed(\Nette\Security\User $user, string $action) : bool
     {
+        /** User has access to everything */
+        if ($user->isInRole('root'))
+        {
+            return true;
+        }
+
+        /** Action is not restricted */
         if (!$this->cache->call([static::class, 'isRestricted'], $action))
         {
             return true;
@@ -41,7 +48,7 @@ trait TRestricted
             $this->getName() :
             static::getReflection()->getName();
 
-        return $this->authorizator->isAllowed($userId, $resource, $action);
+        return $this->authorizator->isAllowed($user->getId(), $resource, $action);
     }
 
     public static function isRestricted(string $action) : bool
