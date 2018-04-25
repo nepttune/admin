@@ -10,16 +10,11 @@ parameters:
     dest:
         adminHomepage: ':Admin:Default:default'
         userProfile: ':Admin:Profile:view'   # false or dest
+        signIn: ':Admin:Sign:in'
+        signOut: ':Admin:Sign:out'
 
     admin:
         notifications: false
         userDetail: false
         search: false
         sidebar: false
-
-    configMenu:
-        Menu:
-            user:
-                name: 'Users'
-                icon: 'user'
-                dest: ':User:default'
