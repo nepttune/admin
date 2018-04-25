@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS `user`
   `username`   VARCHAR(255)                NOT NULL,
   `password`   VARCHAR(255)                NOT NULL,
   `registered` DATE                        NOT NULL,
+  `root`       TINYINT DEFAULT 0           NOT NULL,
   `active`     TINYINT DEFAULT 1           NOT NULL,
 
   INDEX `user_active_username_index` (`active`, `username`)
