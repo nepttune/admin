@@ -19,51 +19,17 @@ use Nette\Application\Routers\RouteList,
 
 class AdminRouterFactory extends RouterFactory
 {
-    const ADMIN_MODULE = 'admin';
-
-    protected static function addAdminRoutes(RouteList $router, string $base) : RouteList
+    public static function createStandardRouter(string $defaultModule = null) : RouteList
     {
-        $router[] = new Route($base . 'user/<action>[/<id>]', [
-            'locale' => [Route::PATTERN => '[a-z]{2}'],
-            'presenter' => 'User',
-            'action' => 'default',
-            'id' => [Route::PATTERN => '\d+']
-        ]);
-
-        $router[] = new Route($base . 'sign/<action>', [
-            'locale' => [Route::PATTERN => '[a-z]{2}'],
-            'presenter' => 'Sign',
-            'action' => 'default'
-        ]);
-
-        return $router;
-    }
-
-    public static function createSubdomainRouter() : RouteList
-    {
-        $base = '//' . lcfirst(static::ADMIN_MODULE) . '.%domain%/[<locale>/]';
-
         $router = static::createRouteList();
-        $router = static::addAdminRoutes($router, $base);
-        $router = static::addSubdomainRoutes($router);
-
-        return $router;
-    }
-
-    public static function createStandardRouter() : RouteList
-    {
-        $base = '/[<locale>/]' . lcfirst(static::ADMIN_MODULE) . '/';
-
-        $router = static::createRouteList();
-        $router = static::addAdminRoutes($router, $base);
-        $router[] = new Route($base . '<presenter>/<action>[/<id>]', [
+        $router[] = new Route('/[<locale>/]admin/<presenter>/<action>[/<id>]', [
             'locale' => [Route::PATTERN => '[a-z]{2}'],
-            'module' => static::ADMIN_MODULE,
+            'module' => 'Admin',
             'presenter' => 'Default',
             'action' => 'default',
             'id' => [Route::PATTERN => '\d+']
         ]);
-        $router = static::addStandardRoutes($router);
+        $router = static::addStandardRoutes($router, $defaultModule);
 
         return $router;
     }
