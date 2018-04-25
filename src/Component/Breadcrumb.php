@@ -18,30 +18,20 @@ final class Breadcrumb extends BaseComponent
 {
     use \Nepttune\TI\TTranslator;
 
-    /** @var string */
-    protected $adminModule;
-
-    public function __construct(\Nepttune\AdminRouterFactory $routerFactory)
-    {
-        parent::__construct();
-        
-        $this->adminModule = ucfirst($routerFactory::ADMIN_MODULE);
-    }
-
     public function render() : void
     {
-        $module = $this->getPresenter()->getModule() ?: $this->adminModule;
+        $module = $this->getPresenter()->getModule();
         $presenter = $this->getPresenter()->getNameWM();
         $action = $this->getPresenter()->getAction();
 
         $breadcrumbs = [];
 
-        if (class_exists("\App\\{$this->adminModule}Module\Presenter\DefaultPresenter"))
+        if (class_exists("\App\AdminModule\Presenter\DefaultPresenter"))
         {
-            $breadcrumbs[":{$this->adminModule}:Default:default"] = 'home';
+            $breadcrumbs[":Admin:Default:default"] = 'home';
         }
 
-        if ($module !== $this->adminModule)
+        if ($module !== 'Admin')
         {
             $breadcrumbs['Default:default'] = lcfirst($module);
         }
