@@ -41,7 +41,7 @@ abstract class BaseAuthPresenter extends BasePresenter
     {
         if (!$this->user->isLoggedIn())
         {
-            $this->redirect(':Sign:in', ['backlink' => $this->storeRequest()]);
+            $this->redirect($this->dest['signIn'], ['backlink' => $this->storeRequest()]);
         }
         
         if (!$this->isAllowed($this->getUser(), $this->getAction()))
