@@ -12,9 +12,9 @@
 
 declare(strict_types = 1);
 
-namespace App\Presenter;
+namespace Nepttune\Presenter;
 
-final class SignPresenter extends \Nepttune\Presenter\BasePresenter
+abstract class SignPresenter extends BasePresenter
 {
     /** @persistent */
     public $backlink;
