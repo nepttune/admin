@@ -33,12 +33,11 @@ CREATE TABLE IF NOT EXISTS `user_access`
   `id`         INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `user_id`    INT(10) UNSIGNED            NOT NULL,
   `resource`   VARCHAR(255)                NOT NULL,
-  `privilege`  VARCHAR(255)                NOT NULL,
 
   CONSTRAINT `user_access_user_id_fk`
   FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
 
-  INDEX `user_access_user_id_resource_privilege_index` (`user_id`, `resource`, `privilege`)
+  INDEX `user_access_user_id_resource_index` (`user_id`, `resource`)
 ) ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS `subscription_type` (
