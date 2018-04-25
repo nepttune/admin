@@ -21,10 +21,7 @@ services:
     - Nepttune\Component\IUserFormFactory
     - Nepttune\Component\IUserListFactory
     - Nepttune\Component\ILoginFormFactory
-    breadCrumbFactory:
-        implement: Nepttune\Component\IBreadcrumbFactory
-        arguments:
-            - @routerFactory
+    - Nepttune\Component\IBreadcrumbFactory
     configMenuFactory:
         implement: Nepttune\Component\IConfigMenuFactory
         arguments:
