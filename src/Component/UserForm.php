@@ -85,12 +85,12 @@ final class UserForm extends BaseFormComponent
 
     public function formSuccess(\Nette\Application\UI\Form $form, \stdClass $values) : void
     {
-        if ($this->userId)
+        if ($this->rowId)
         {
-            $values->id = $this->id;
+            $values->id = $this->rowId;
         }
 
-        $roles = \array_filter($values->roles, function ($value) {return $value === true;});
+        $roles = \array_filter((array) $values->roles, function ($value) {return $value === true;});
 
         unset($values->password2, $values->roles);
         $values->registered = new \Nette\Utils\DateTime();
