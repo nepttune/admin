@@ -26,10 +26,13 @@ sign:
 user:
     default:
         title: 'User'
-        description: 'Zde se nachází přehled uživatelů.'
+        description: 'There is list of all users on this page.'
     add:
         title: 'Add user'
         description: 'You can create new user on this page.'
+    edit:
+        title: 'Edit user'
+        description: 'You can edit information about user on this page.'
 
 breadcrumb:
     home: 'Home'
