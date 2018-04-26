@@ -30,6 +30,9 @@ user:
     add:
         title: 'Přidání uživatele'
         description: 'Zde můžete přidat uživatele.'
+    edit:
+        title: 'Editace uživatele'
+        description: 'Zde můžete upravit informace o uživateli.'
 
 breadcrumb:
     home: 'Domov'
