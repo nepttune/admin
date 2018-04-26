@@ -26,12 +26,11 @@ final class Authorizator
         $this->userAccessModel = $userAccessModel;
     }
 
-    public function isAllowed($userId, $resource, $privilege) : bool
+    public function isAllowed($userId, $resource) : bool
     {
         return $this->userAccessModel->findByArray([
             'user_id' => $userId,
-            'resource' => $resource,
-            'privilege' => $privilege
+            'resource' => $resource
         ])->count() > 0;
     }
 }
