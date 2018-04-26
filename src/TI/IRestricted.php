@@ -16,11 +16,12 @@ namespace Nepttune\TI;
 
 interface IRestricted
 {
-    public function injectRestricted(
-        \Nepttune\Model\Authorizator $authorizator,
-        \Nette\Caching\IStorage $storage) : void;
+    public function injectRestricted(\Nepttune\Model\Authorizator $authorizator) : void;
 
-    public function isAllowed(\Nette\Security\User $user, string $privilege) : bool;
+    public function isAllowed() : bool;
 
     public static function isRestricted(string $action) : bool;
+
+    public static function getRestricted() : array;
 }
+
