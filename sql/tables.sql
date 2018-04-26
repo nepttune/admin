@@ -62,5 +62,5 @@ ALTER TABLE `subscription`
   ADD CONSTRAINT `subscription_user_id_fk` 
   FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
   
-INSERT INTO `user` (`id`, `username`, `password`, `registered`, `active`) VALUES
-(1, 'test', '$2y$10$yX2aYVewjkhJywP8QIpyvOtFqr8xYIIAh4fIwZkP67DPVKk7WCt6.', '2018-04-23', 1);
+INSERT INTO `user` (`id`, `username`, `password`, `registered`, `root`, `active`) VALUES
+(1, 'test', '$2y$10$yX2aYVewjkhJywP8QIpyvOtFqr8xYIIAh4fIwZkP67DPVKk7WCt6.', '2018-04-23', 1, 1);
