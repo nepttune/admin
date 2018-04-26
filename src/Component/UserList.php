@@ -18,6 +18,9 @@ use \Ublaboo\DataGrid\DataGrid;
 
 final class UserList extends BaseListComponent
 {
+    const ADD = ':add';
+    const EDIT = ':edit';
+
     public function __construct(\Nepttune\Model\UserModel $userModel)
     {
         parent::__construct();
@@ -29,10 +32,6 @@ final class UserList extends BaseListComponent
     {
         $grid->addColumnText('username', 'admin.username')
             ->setSortable();
-
-        $grid->addToolbarButton(':add', 'global.add')
-            ->setIcon('plus')
-            ->setClass('btn btn-primary');
 
         return $grid;
     }
