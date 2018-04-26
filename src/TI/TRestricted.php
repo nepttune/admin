@@ -19,15 +19,9 @@ trait TRestricted
     /** @var \Nepttune\Model\Authorizator */
     private $authorizator;
 
-    /** @var \Nette\Caching\Cache */
-    private $cache;
-
-    public function injectRestricted(
-        \Nepttune\Model\Authorizator $authorizator,
-        \Nette\Caching\IStorage $storage) : void
+    public function injectRestricted(\Nepttune\Model\Authorizator $authorizator) : void
     {
         $this->authorizator = $authorizator;
-        $this->cache = new \Nette\Caching\Cache($storage, 'Nepttune.Authorizator');
     }
 
     public function isAllowed() : bool
