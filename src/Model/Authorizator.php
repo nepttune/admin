@@ -21,16 +21,26 @@ final class Authorizator
     /** @var  UserAccessModel */
     private $userAccessModel;
 
-    public function __construct(UserAccessModel $userAccessModel)
+    /** @var \Nette\Security\User */
+    private $user;
+
+    public function __construct(UserAccessModel $userAccessModel, \Nette\Security\User $user)
     {
         $this->userAccessModel = $userAccessModel;
+        $this->user = $user;
     }
 
-    public function isAllowed($userId, $resource) : bool
+    public function isAllowed($resource) : bool
     {
+        if ($this->user->isInRole('root'))
+        {
+            return true;
+        }
+
         return $this->userAccessModel->findByArray([
-            'user_id' => $userId,
+            'user_id' => $this->user->getId(),
             'resource' => $resource
         ])->count() > 0;
     }
 }
+
