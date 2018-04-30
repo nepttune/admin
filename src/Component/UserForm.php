@@ -127,7 +127,7 @@ final class UserForm extends BaseFormComponent
         $pages = [];
         foreach ($this->context->findByType(\Nepttune\TI\IRestricted::class) as $name)
         {
-            /** @var \Nepttune\TI\ISitemap $presenter */
+            /** @var \Nepttune\TI\IRestricted $presenter */
             $presenter = $this->context->getService($name);
 
             foreach ($presenter->getRestricted() as $resource)
