@@ -30,7 +30,7 @@ final class UserForm extends BaseFormComponent
     protected $userAccessModel;
 
     /** @var array */
-    protected $pages = [];
+    protected $privileges = [];
 
     public function __construct(
         \Nepttune\Model\UserModel $userModel,
@@ -45,7 +45,7 @@ final class UserForm extends BaseFormComponent
         $this->context = $context;
         $this->cache = new \Nette\Caching\Cache($storage, 'Nepttune.Authorizator');
 
-        $this->pages = $this->getPages();
+        $this->privileges = $this->getPrivileges();
     }
 
     public function setDefaults(int $rowId) : void
@@ -53,13 +53,13 @@ final class UserForm extends BaseFormComponent
         $this->rowId = $rowId;
         $data = $this->repository->findRow($rowId)->fetch()->toArray();
 
-        $roles = [];
+        $access = [];
         foreach($this->userAccessModel->findBy('user_id', $rowId) as $row)
         {
-            $roles[static::formatInput($row->resource)] = true;
+            $access[static::formatInput($row->resource, $row->privilege)] = true;
         }
 
-        $data['roles'] = $roles;
+        $data['access'] = $access;
         $this['form']->setDefaults($data);
     }
 
@@ -68,16 +68,33 @@ final class UserForm extends BaseFormComponent
         $form->addText('username', 'admin.username')
             ->addRule([$this, static::VALIDATOR_UNIQUE], static::VALIDATOR_UNIQUE_MSG)
             ->setRequired();
-        $form->addPassword('password', 'admin.password')
-            ->setRequired();
+        $form->addPassword('password', 'admin.password');
         $form->addPassword('password2', 'admin.password_again')
-            ->setRequired()
             ->addCondition($form::EQUAL, $form['password']);
 
-        $roles = $form->addContainer('roles');
-        foreach ($this->pages as $option => $resource)
+        if (!$this->rowId)
         {
-            $roles->addCheckbox($option, 'access.' . $option);
+            $form['password']->setRequired();
+            $form['password2']->setRequired();
+        }
+
+        $access = $form->addContainer('access');
+        foreach ($this->privileges as $resource => $privileges)
+        {
+            $base = $access->addCheckbox($resource, "access.{$resource}");
+
+            if (empty($privileges))
+            {
+                continue;
+            }
+
+            $condition = $base->addCondition($form::FILLED, true);
+            foreach ($privileges as $privilege)
+            {
+                $access->addCheckbox($privilege, "access.{$privilege}")
+                    ->setOption('id', $privilege);
+                $condition->toggle($privilege);
+            }
         }
 
         return $form;
@@ -85,25 +102,34 @@ final class UserForm extends BaseFormComponent
 
     public function formSuccess(\Nette\Application\UI\Form $form, \stdClass $values) : void
     {
+        $access = \array_filter((array) $values->access, function ($value) {return $value === true;});
+        unset($values->password2, $values->access);
+
+        if (!$values->password)
+        {
+            unset($values->password);
+        }
         if ($this->rowId)
         {
             $values->id = $this->rowId;
         }
-
-        $roles = \array_filter((array) $values->roles, function ($value) {return $value === true;});
-
-        unset($values->password2, $values->roles);
         $values->registered = new \Nette\Utils\DateTime();
         $values->password = \Nette\Security\Passwords::hash($values->password);
 
-        $this->userAccessModel->transaction(function() use ($values, $roles)
+        $this->userAccessModel->transaction(function() use ($values, $access)
         {
             $row = $this->repository->save((array) $values);
 
             $insert = [];
-            foreach ($roles as $name => $value)
+            foreach ($access as $name => $value)
             {
-                $insert[] = ['user_id' => $row->id, 'resource' => $this->pages[$name]];
+                $temp = static::formatResource($name);
+
+                $insert[] = [
+                    'user_id' => $row->id,
+                    'resource' => $temp[0],
+                    'privilege' => $temp[1]
+                ];
             }
 
             $this->userAccessModel->delete(['user_id' => $row->id]);
@@ -114,34 +140,56 @@ final class UserForm extends BaseFormComponent
         $this->getPresenter()->redirect(static::REDIRECT);
     }
 
-    protected function getPages() : array
+    protected function getPrivileges() : array
     {
-        $cacheName = 'restricted_pages';
-        $pages = $this->cache->load($cacheName);
+        $cacheName = 'restricted_privileges';
+        $return = $this->cache->load($cacheName);
 
-        if ($pages)
+        if ($return)
         {
-            return $pages;
+            return $return;
         }
 
-        $pages = [];
+        $return = [];
         foreach ($this->context->findByType(\Nepttune\TI\IRestricted::class) as $name)
         {
             /** @var \Nepttune\TI\IRestricted $presenter */
             $presenter = $this->context->getService($name);
 
-            foreach ($presenter->getRestricted() as $resource)
+            foreach ($presenter->getRestricted() as $resource => $privileges)
             {
-                $pages[static::formatInput($resource)] = $resource;
+                $temp = [];
+                foreach ($privileges as $privilage)
+                {
+                    $temp[] = static::formatInput($resource, $privilage);
+                }
+                $return[static::formatInput($resource)] = $temp;
             }
         }
 
-        $this->cache->save($cacheName, $pages);
-        return $pages;
+        $this->cache->save($cacheName, $return);
+
+        return $return;
     }
 
-    protected static function formatInput(string $resource)
+    protected static function formatInput(string $resource, string $privilege = null) : string
     {
+        if ($privilege)
+        {
+            return static::formatInput($resource) . '_' . $privilege;
+        }
+
         return str_replace(':', '_', ltrim($resource, ':'));
+    }
+
+    protected static function formatResource(string $input) : array
+    {
+        $split = \explode('_', $input);
+        $priv  = \count($split) === 3 ? null : \array_pop($split);
+
+        return [
+            \implode(':', $split),
+            $priv
+        ];
     }
 }
