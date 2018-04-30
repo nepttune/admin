@@ -188,7 +188,7 @@ final class UserForm extends BaseFormComponent
         $priv  = \count($split) === 3 ? null : \array_pop($split);
 
         return [
-            \implode(':', $split),
+            ':' . \implode(':', $split),
             $priv
         ];
     }
