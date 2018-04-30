@@ -26,21 +26,13 @@ trait TRestricted
 
     public function isAllowed() : bool
     {
-        $user = $this->getUser();
-
-        /** User has access to everything */
-        if ($user->isInRole('root'))
-        {
-            return true;
-        }
-
         /** Action is not restricted */
         if (!static::isRestricted($this->getAction()))
         {
             return true;
         }
 
-        return $this->authorizator->isAllowed($user->getId(), $this->getAction(true));
+        return $this->authorizator->isAllowed($this->getAction(true));
     }
 
     public static function isRestricted(string $action) : bool
@@ -54,10 +46,10 @@ trait TRestricted
         return ($reflection->hasMethod($action) && $reflection->getMethod($action)->hasAnnotation('restricted')) ||
                ($reflection->hasMethod($handle) && $reflection->getMethod($handle)->hasAnnotation('restricted'));
     }
-    
+
     public static function getRestricted() : array
     {
-        $pages = [];
+        $return = [];
 
         /** @var \Nette\Application\UI\ComponentReflection $reflection */
         $reflection = static::getReflection();
@@ -74,16 +66,28 @@ trait TRestricted
 
             $regex = '/App\\\\([A-Z][a-z]*)Module\\\\Presenter\\\\([A-Z][a-z]*)Presenter/';
             $matches = [];
-            preg_match($regex, $reflection->name, $matches);
+            \preg_match($regex, $reflection->getName(), $matches);
 
             if (\count($matches) < 3)
             {
                 continue;
             }
 
-            $pages[] = ":{$matches[1]}:{$matches[2]}:" . lcfirst(substr($method->name, 6));
+            $privileges = [];
+
+            if ($method->hasAnnotation('privilege'))
+            {
+                $refl = \Nette\Reflection\Method::from($reflection->getName(), $method->getName());
+                foreach ($refl->getAnnotations()['privilege'] as $privilege)
+                {
+                    $privileges[] = $privilege;
+                }
+            }
+
+            $resource = ":{$matches[1]}:{$matches[2]}:" . lcfirst(substr($method->getName(), 6));
+            $return[$resource] = $privileges;
         }
 
-        return $pages;
+        return $return;
     }
 }
