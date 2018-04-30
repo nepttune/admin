@@ -30,7 +30,7 @@ final class Authorizator
         $this->user = $user;
     }
 
-    public function isAllowed($resource) : bool
+    public function isAllowed($resource, $privilege = null) : bool
     {
         if ($this->user->isInRole('root'))
         {
@@ -39,7 +39,8 @@ final class Authorizator
 
         return $this->userAccessModel->findByArray([
             'user_id' => $this->user->getId(),
-            'resource' => $resource
+            'resource' => $resource,
+            'privilege' => null
         ])->count() > 0;
     }
 }
