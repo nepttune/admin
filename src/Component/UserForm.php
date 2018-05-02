@@ -26,6 +26,9 @@ class UserForm extends BaseFormComponent
     /** @var \Nette\Caching\Cache */
     private $cache;
 
+    /** @var \Nepttune\Model\Authorizator*/
+    protected $authorizator;
+    
     /** @var \Nepttune\Model\UserAccessModel */
     protected $userAccessModel;
 
@@ -33,16 +36,18 @@ class UserForm extends BaseFormComponent
     protected $privileges = [];
 
     public function __construct(
-        \Nepttune\Model\UserModel $userModel,
-        \Nepttune\Model\UserAccessModel $userAccessModel,
         \Nette\DI\Container $context,
+        \Nepttune\Model\UserModel $userModel,
+        \Nepttune\Model\Authorizator $authorizator,
+        \Nepttune\Model\UserAccessModel $userAccessModel,
         \Nette\Caching\IStorage $storage)
     {
         parent::__construct();
-        
-        $this->repository = $userModel;
-        $this->userAccessModel = $userAccessModel;
+
         $this->context = $context;
+        $this->repository = $userModel;
+        $this->authorizator = $authorizator;
+        $this->userAccessModel = $userAccessModel;
         $this->cache = new \Nette\Caching\Cache($storage, 'Nepttune.Authorizator');
     }
     
@@ -148,24 +153,20 @@ class UserForm extends BaseFormComponent
 
             foreach ($presenter->getRestricted() as $resource => $privileges)
             {
-                if (!$user->isInRole('root') &&
-                    !$this->userAccessModel->findByArray(
-                        ['user_id' => $user->getId(), 'resource' => $resource])->count())
+                if ($this->authorizator->isAllowed($resource))
                 {
                     continue;
                 }
 
                 $temp = [];
-                foreach ($privileges as $privilage)
+                foreach ($privileges as $privilege)
                 {
-                    if (!$user->isInRole('root') &&
-                        !$this->userAccessModel->findByArray(
-                            ['user_id' => $user->getId(), 'resource' => $resource, 'privilege' => $privilage])->count())
+                    if ($this->authorizator->isAllowed($resource, $privilege))
                     {
                         continue;
                     }
 
-                    $temp[] = static::formatInput($resource, $privilage);
+                    $temp[] = static::formatInput($resource, $privilege);
                 }
                 $return[static::formatInput($resource)] = $temp;
             }
