@@ -19,7 +19,7 @@
             <span class="logo-lg">{$meta['name']}</span>
         </a>
         <nav class="navbar navbar-static-top" role="navigation">
-            <a href="javascript:;" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                 <span class="sr-only">Toggle navigation</span>
                 {icon bars}
             </a>
@@ -55,7 +55,7 @@
                                     </div>
                                 {/if}
                                 <div class="pull-right">
-                                    <a href="{plink dest['signOut']}" class="btn btn-default btn-flat">{_admin.logout}</a>
+                                    <a href="{plink $dest['signOut']}" class="btn btn-default btn-flat">{_admin.logout}</a>
                                 </div>
                             </li>
                         </ul>
