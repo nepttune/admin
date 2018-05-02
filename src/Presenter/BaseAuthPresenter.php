@@ -46,7 +46,7 @@ abstract class BaseAuthPresenter extends BasePresenter
         
         if (!$this->isAllowed())
         {
-            $this->redirect($this->dest['adminHomepage']);
+            throw new \Nette\Application\BadRequestException('Forbidden', 403);
         }
 
         parent::startup();
