@@ -44,8 +44,11 @@ class UserForm extends BaseFormComponent
         $this->userAccessModel = $userAccessModel;
         $this->context = $context;
         $this->cache = new \Nette\Caching\Cache($storage, 'Nepttune.Authorizator');
-
-        $this->privileges = $this->getPrivileges();
+    }
+    
+    public function attached($presenter)
+    {
+        $this->privileges = $this->getPrivileges($presenter->getUser());
     }
 
     public function setDefaults(int $rowId) : void
@@ -119,30 +122,17 @@ class UserForm extends BaseFormComponent
         $this->userAccessModel->transaction(function() use ($values, $access)
         {
             $row = $this->repository->save((array) $values);
-
-            $insert = [];
-            foreach ($access as $name => $value)
-            {
-                $temp = static::formatResource($name);
-
-                $insert[] = [
-                    'user_id' => $row->id,
-                    'resource' => $temp[0],
-                    'privilege' => $temp[1]
-                ];
-            }
-
             $this->userAccessModel->delete(['user_id' => $row->id]);
-            $this->userAccessModel->insertMany($insert);
+            $this->userAccessModel->insertMany(static::createInsertArray());
         });
 
         $this->getPresenter()->flashMessage($this->translator->translate('global.flash.save_success'), 'success');
         $this->getPresenter()->redirect(static::REDIRECT);
     }
 
-    protected function getPrivileges() : array
+    protected function getPrivileges(\Nette\Security\User $user) : array
     {
-        $cacheName = 'restricted_privileges';
+        $cacheName = 'restricted_privileges_' . $user->isInRole('root') ? 'root' : $user->getId();
         $return = $this->cache->load($cacheName);
 
         if ($return)
@@ -158,9 +148,23 @@ class UserForm extends BaseFormComponent
 
             foreach ($presenter->getRestricted() as $resource => $privileges)
             {
+                if (!$user->isInRole('root') &&
+                    !$this->userAccessModel->findByArray(
+                        ['user_id' => $user->getId(), 'resource' => $resource])->count())
+                {
+                    continue;
+                }
+
                 $temp = [];
                 foreach ($privileges as $privilage)
                 {
+                    if (!$user->isInRole('root') &&
+                        !$this->userAccessModel->findByArray(
+                            ['user_id' => $user->getId(), 'resource' => $resource, 'privilege' => $privilage])->count())
+                    {
+                        continue;
+                    }
+
                     $temp[] = static::formatInput($resource, $privilage);
                 }
                 $return[static::formatInput($resource)] = $temp;
@@ -191,5 +195,22 @@ class UserForm extends BaseFormComponent
             ':' . \implode(':', $split),
             $priv
         ];
+    }
+    
+    protected static function createInsertArray() : array
+    {
+        $insert = [];
+        foreach ($access as $name => $value)
+        {
+            $temp = static::formatResource($name);
+
+            $insert[] = [
+                'user_id' => $row->id,
+                'resource' => $temp[0],
+                'privilege' => $temp[1]
+            ];
+        }
+
+        return $insert;
     }
 }
