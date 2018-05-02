@@ -16,7 +16,7 @@ namespace Nepttune\Component;
 
 use \Ublaboo\DataGrid\DataGrid;
 
-final class UserList extends BaseListComponent
+class UserList extends BaseListComponent
 {
     const ADD = ':add';
     const EDIT = ':edit';
