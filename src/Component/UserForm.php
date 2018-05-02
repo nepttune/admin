@@ -153,7 +153,7 @@ class UserForm extends BaseFormComponent
 
             foreach ($presenter->getRestricted() as $resource => $privileges)
             {
-                if ($this->authorizator->isAllowed($resource))
+                if (!$this->authorizator->isAllowed($resource))
                 {
                     continue;
                 }
@@ -161,7 +161,7 @@ class UserForm extends BaseFormComponent
                 $temp = [];
                 foreach ($privileges as $privilege)
                 {
-                    if ($this->authorizator->isAllowed($resource, $privilege))
+                    if (!$this->authorizator->isAllowed($resource, $privilege))
                     {
                         continue;
                     }
