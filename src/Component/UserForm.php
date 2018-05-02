@@ -16,7 +16,7 @@ namespace Nepttune\Component;
 
 use \Nette\Application\UI\Form;
 
-final class UserForm extends BaseFormComponent
+class UserForm extends BaseFormComponent
 {
     const REDIRECT = ':default';
 
