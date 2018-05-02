@@ -14,7 +14,7 @@ declare(strict_types = 1);
 
 namespace Nepttune\Presenter;
 
-abstract class BaseAuthPresenter extends BasePresenter
+abstract class BaseAuthPresenter extends BasePresenter implements \Nepttune\TI\IRestricted
 {
     use \Nepttune\TI\TRestricted;
 
