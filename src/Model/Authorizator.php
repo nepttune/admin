@@ -40,7 +40,7 @@ final class Authorizator
         return $this->userAccessModel->findByArray([
             'user_id' => $this->user->getId(),
             'resource' => $resource,
-            'privilege' => null
+            'privilege' => $privilege
         ])->count() > 0;
     }
 }
