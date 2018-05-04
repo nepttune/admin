@@ -15,11 +15,15 @@ services:
     - Nepttune\Model\LoginLogModel
     - Nepttune\Model\UserModel
     - Nepttune\Model\UserAccessModel
+    - Nepttune\Model\RoleModel
+    - Nepttune\Model\RoleAccessModel
     - Nepttune\Model\SubscriptionTypeModel
     - Nepttune\Model\UserSubscriptionTypeModel
 
     - Nepttune\Component\IUserFormFactory
     - Nepttune\Component\IUserListFactory
+    - Nepttune\Component\IRoleFormFactory
+    - Nepttune\Component\IRoleListFactory
     - Nepttune\Component\ILoginFormFactory
     - Nepttune\Component\IBreadcrumbFactory
     configMenuFactory:
