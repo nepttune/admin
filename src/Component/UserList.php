@@ -18,8 +18,8 @@ use \Ublaboo\DataGrid\DataGrid;
 
 class UserList extends BaseListComponent
 {
-    const ADD = ':add';
-    const EDIT = ':edit';
+    protected $add = ':add';
+    protected $edit = ':edit';
 
     public function __construct(\Nepttune\Model\UserModel $userModel)
     {
