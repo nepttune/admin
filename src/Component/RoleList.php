@@ -30,9 +30,9 @@ class RoleList extends BaseListComponent
 
     protected function modifyList(DataGrid $grid) : DataGrid
     {
-        $grid->addColumnText('name', 'global.name')
+        $grid->addColumnText('name', 'list.column.name')
             ->setSortable();
-        $grid->addColumnText('description', 'global.description');
+        $grid->addColumnText('description', 'list.column.description');
 
         return $grid;
     }
