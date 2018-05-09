@@ -152,7 +152,7 @@ trait TAccessForm
         ];
     }
 
-    protected static function createInsertArray(int $id, array $access) : array
+    protected function createInsertArray(int $id, array $access) : array
     {
         $insert = [];
         foreach ($access as $name => $value)
