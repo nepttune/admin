@@ -1,0 +1,13 @@
+{control form}
+
+<script n:nonce>
+    const roles = {
+    {foreach $roles as $role}
+        {$role->id}: [
+        {foreach $role->related('role_access') as $access}
+            {$control::formatInput($access->resource, $access->privilege)}{sep},{/sep}
+        {/foreach}
+        ]{sep},{/sep}
+    {/foreach}
+    };
+</script>
