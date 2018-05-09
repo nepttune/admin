@@ -16,59 +16,33 @@ namespace Nepttune\Component;
 
 use \Nette\Application\UI\Form;
 
-class UserForm extends BaseFormComponent
+class UserForm extends BaseFormComponent implements \Nepttune\TI\IAccessForm
 {
+    use \Nepttune\TI\TAccessForm;
+
     const REDIRECT = ':default';
+    const TEMPLATE_PATH = __DIR__ . '/UserForm.latte';
 
-    /** @var \Nette\DI\Container */
-    private $context;
-
-    /** @var \Nette\Caching\Cache */
-    private $cache;
-
-    /** @var \Nepttune\Model\Authorizator*/
-    protected $authorizator;
-    
-    /** @var \Nepttune\Model\UserAccessModel */
-    protected $userAccessModel;
-
-    /** @var array */
-    protected $privileges = [];
+    /** @var \Nepttune\Model\RoleModel */
+    protected $roleModel;
 
     public function __construct(
-        \Nette\DI\Container $context,
         \Nepttune\Model\UserModel $userModel,
-        \Nepttune\Model\Authorizator $authorizator,
         \Nepttune\Model\UserAccessModel $userAccessModel,
-        \Nette\Caching\IStorage $storage)
+        \Nepttune\Model\RoleModel $roleModel)
     {
         parent::__construct();
 
-        $this->context = $context;
         $this->repository = $userModel;
-        $this->authorizator = $authorizator;
-        $this->userAccessModel = $userAccessModel;
-        $this->cache = new \Nette\Caching\Cache($storage, 'Nepttune.Authorizator');
-    }
-    
-    public function attached($presenter)
-    {
-        $this->privileges = $this->getPrivileges($presenter->getUser());
+        $this->accessModel = $userAccessModel;
+        $this->roleModel = $roleModel;
     }
 
-    public function setDefaults(int $rowId) : void
+    public function render() : void
     {
-        $this->rowId = $rowId;
-        $data = $this->repository->findRow($rowId)->fetch()->toArray();
+        $this->template->roles = $this->roleModel->findActive();
 
-        $access = [];
-        foreach($this->userAccessModel->findBy('user_id', $rowId) as $row)
-        {
-            $access[static::formatInput($row->resource, $row->privilege)] = true;
-        }
-
-        $data['access'] = $access;
-        $this['form']->setDefaults($data);
+        parent::render();
     }
 
     protected function modifyForm(Form $form) : Form
@@ -86,24 +60,11 @@ class UserForm extends BaseFormComponent
             $form['password2']->setRequired();
         }
 
-        $access = $form->addContainer('access');
-        foreach ($this->privileges as $resource => $privileges)
-        {
-            $base = $access->addCheckbox($resource, "access.{$resource}");
+        $form->addSelect('role', 'Přednastavená role', $this->roleModel->findActive()->fetchPairs('id', 'name'))
+            ->setPrompt('Vyberte roli')
+            ->setOmitted();
 
-            if (empty($privileges))
-            {
-                continue;
-            }
-
-            $condition = $base->addCondition($form::FILLED, true);
-            foreach ($privileges as $privilege)
-            {
-                $access->addCheckbox($privilege, "access.{$privilege}")
-                    ->setOption('id', $privilege);
-                $condition->toggle($privilege);
-            }
-        }
+        $form = $this->addCheckboxes($form);
 
         return $form;
     }
@@ -128,90 +89,10 @@ class UserForm extends BaseFormComponent
         {
             $row = $this->repository->save((array) $values);
             $this->userAccessModel->delete(['user_id' => $row->id]);
-            $this->userAccessModel->insertMany(static::createInsertArray());
+            $this->userAccessModel->insertMany(static::createInsertArray($row->id, $access));
         });
 
         $this->getPresenter()->flashMessage($this->translator->translate('global.flash.save_success'), 'success');
         $this->getPresenter()->redirect(static::REDIRECT);
-    }
-
-    protected function getPrivileges(\Nette\Security\User $user) : array
-    {
-        $cacheName = 'restricted_privileges_' . $user->isInRole('root') ? 'root' : $user->getId();
-        $return = $this->cache->load($cacheName);
-
-        if ($return)
-        {
-            return $return;
-        }
-
-        $return = [];
-        foreach ($this->context->findByType(\Nepttune\TI\IRestricted::class) as $name)
-        {
-            /** @var \Nepttune\TI\IRestricted $presenter */
-            $presenter = $this->context->getService($name);
-
-            foreach ($presenter->getRestricted() as $resource => $privileges)
-            {
-                if (!$this->authorizator->isAllowed($resource))
-                {
-                    continue;
-                }
-
-                $temp = [];
-                foreach ($privileges as $privilege)
-                {
-                    if (!$this->authorizator->isAllowed($resource, $privilege))
-                    {
-                        continue;
-                    }
-
-                    $temp[] = static::formatInput($resource, $privilege);
-                }
-                $return[static::formatInput($resource)] = $temp;
-            }
-        }
-
-        $this->cache->save($cacheName, $return);
-
-        return $return;
-    }
-
-    protected static function formatInput(string $resource, string $privilege = null) : string
-    {
-        if ($privilege)
-        {
-            return static::formatInput($resource) . '_' . $privilege;
-        }
-
-        return str_replace(':', '_', ltrim($resource, ':'));
-    }
-
-    protected static function formatResource(string $input) : array
-    {
-        $split = \explode('_', $input);
-        $priv  = \count($split) === 3 ? null : \array_pop($split);
-
-        return [
-            ':' . \implode(':', $split),
-            $priv
-        ];
-    }
-    
-    protected static function createInsertArray() : array
-    {
-        $insert = [];
-        foreach ($access as $name => $value)
-        {
-            $temp = static::formatResource($name);
-
-            $insert[] = [
-                'user_id' => $row->id,
-                'resource' => $temp[0],
-                'privilege' => $temp[1]
-            ];
-        }
-
-        return $insert;
     }
 }
