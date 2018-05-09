@@ -38,6 +38,9 @@ decorator:
     Nepttune\TI\IRestricted:
         setup:
             - injectRestricted
+    Nepttune\TI\IAccessForm:
+        setup:
+            - injectAccessForm
 
 translation:
     dirs:
