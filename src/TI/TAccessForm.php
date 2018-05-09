@@ -30,6 +30,9 @@ trait TAccessForm
 
     /** @var array */
     protected $privileges = [];
+    
+    /** @var string */
+    protected $primaryRow;
 
     public function injectAccessForm(
         \Nette\DI\Container $context,
@@ -44,6 +47,7 @@ trait TAccessForm
     public function attached($presenter) : void
     {
         $this->privileges = $this->getPrivileges();
+        $this->primaryRow = $this instanceof \Nepttune\Component\UserForm ? 'user_id' : 'role_id';
     }
 
     public function setDefaults(int $rowId) : void
@@ -52,7 +56,7 @@ trait TAccessForm
         $data = $this->repository->findRow($rowId)->fetch()->toArray();
 
         $access = [];
-        foreach($this->accessModel->findBy('user_id', $rowId) as $row)
+        foreach($this->accessModel->findBy($this->primaryRow, $rowId) as $row)
         {
             $access[static::formatInput($row->resource, $row->privilege)] = true;
         }
@@ -156,7 +160,7 @@ trait TAccessForm
             $temp = static::formatResource($name);
 
             $insert[] = [
-                'user_id' => $id,
+                $this->primaryRow => $id,
                 'resource' => $temp[0],
                 'privilege' => $temp[1]
             ];
