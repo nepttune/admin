@@ -43,5 +43,15 @@ final class Authorizator
             'privilege' => $privilege
         ])->count() > 0;
     }
+    
+    public function isRoot() : bool
+    {
+        return $this->user->isInRole('root');
+    }
+
+    public function getUserId() : int
+    {
+        return $this->user->getId();
+    }
 }
 
