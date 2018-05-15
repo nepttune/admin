@@ -30,7 +30,7 @@ abstract class SignPresenter extends BasePresenter
         $this->getUser()->logout();
 
         $this->flashMessage($this->translator->translate('admin.flash.sign_out'), 'success');
-        $this->redirect(':Sign:in');
+        $this->redirect($this->dest['signIn']);
     }
 
     protected function createComponentLoginForm()
