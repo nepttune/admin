@@ -85,11 +85,11 @@ class UserForm extends BaseFormComponent implements \Nepttune\TI\IAccessForm
         $values->registered = new \Nette\Utils\DateTime();
         $values->password = \Nette\Security\Passwords::hash($values->password);
 
-        $this->userAccessModel->transaction(function() use ($values, $access)
+        $this->accessModel->transaction(function() use ($values, $access)
         {
             $row = $this->repository->save((array) $values);
-            $this->userAccessModel->delete(['user_id' => $row->id]);
-            $this->userAccessModel->insertMany(static::createInsertArray($row->id, $access));
+            $this->accessModel->delete(['user_id' => $row->id]);
+            $this->accessModel->insertMany(static::createInsertArray($row->id, $access));
         });
 
         $this->getPresenter()->flashMessage($this->translator->translate('global.flash.save_success'), 'success');
