@@ -33,12 +33,24 @@ user:
     edit:
         title: 'Edit user'
         description: 'You can edit information about user on this page.'
+        
+role:
+    default:
+        title: 'Role'
+        description: 'There is list of all roles on this page.'
+    add:
+        title: 'Add role'
+        description: 'You can create new role on this page.'
+    edit:
+        title: 'Edite role'
+        description: 'You can edit roles settings on this page.'
 
 breadcrumb:
     home: 'Home'
     user: 'Users'
     add: 'Add'
     edit: 'Edit'
+    detail: 'Detail'
 
 error:
     user: 'User not found.'
