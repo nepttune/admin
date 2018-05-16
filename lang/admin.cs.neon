@@ -37,7 +37,7 @@ user:
 role:
     default:
         title: 'Role'
-        description: 'zde se nachází přehled rolí'
+        description: 'Zde se nachází přehled rolí.'
     add:
         title: 'Přidání role'
         description: 'Zde můžete přidat roli.'
