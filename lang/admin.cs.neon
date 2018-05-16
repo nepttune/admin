@@ -33,12 +33,24 @@ user:
     edit:
         title: 'Editace uživatele'
         description: 'Zde můžete upravit informace o uživateli.'
+        
+role:
+    default:
+        title: 'Role'
+        description: 'zde se nachází přehled rolí'
+    add:
+        title: 'Přidání role'
+        description: 'Zde můžete přidat roli.'
+    edit:
+        title: 'Editace role'
+        description: 'Zde můžete upravit nastavení role.'
 
 breadcrumb:
     home: 'Domov'
     user: 'Uživatelé'
     add: 'Přidání'
     edit: 'Editace'
+    detail: 'Detail'
 
 error:
     user: 'Uživatel nenalezen.'
