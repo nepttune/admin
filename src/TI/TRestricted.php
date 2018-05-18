@@ -17,7 +17,7 @@ namespace Nepttune\TI;
 trait TRestricted
 {
     /** @var \Nepttune\Model\Authorizator */
-    private $authorizator;
+    protected $authorizator;
 
     public function injectRestricted(\Nepttune\Model\Authorizator $authorizator) : void
     {
