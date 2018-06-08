@@ -50,9 +50,8 @@ trait TAccessForm
         $this->primaryRow = $this instanceof \Nepttune\Component\UserForm ? 'user_id' : 'role_id';
     }
 
-    public function setDefaults(int $rowId) : void
+    public function setDuplicate(int $rowId) : void
     {
-        $this->rowId = $rowId;
         $data = $this->repository->findRow($rowId)->fetch()->toArray();
 
         $access = [];
