@@ -36,7 +36,7 @@ class RoleList extends BaseListComponent
         
         $grid->addAction('duplicate', 'global.duplicate', 'Role:duplicate')
             ->setClass('btn btn-xs btn-primary')
-            ->setIcon('plus');
+            ->setIcon('copy');
 
         return $grid;
     }
