@@ -33,6 +33,10 @@ class RoleList extends BaseListComponent
         $grid->addColumnText('name', 'list.column.name')
             ->setSortable();
         $grid->addColumnText('description', 'list.column.description');
+        
+        $grid->addAction('duplicate', 'global.duplicate', 'Role:duplicate')
+            ->setClass('btn btn-xs btn-primary')
+            ->setIcon('plus');
 
         return $grid;
     }
