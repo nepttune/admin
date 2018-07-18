@@ -46,7 +46,7 @@ role:
         description: 'Zde můžete upravit nastavení role.'
     duplicate:
         title: 'Duplikování role'
-        description: 'Zde tvoříte novou roli z kopie jiné role.
+        description: 'Zde tvoříte novou roli z kopie jiné role.'
 
 breadcrumb:
     home: 'Domov'
