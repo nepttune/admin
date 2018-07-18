@@ -46,7 +46,7 @@ role:
         description: 'You can edit roles settings on this page.'
     duplicate:
         title: 'Duplicate role'
-        description: 'Create new role from copy of existing role.
+        description: 'Create new role from copy of existing role.'
 
 breadcrumb:
     home: 'Home'
