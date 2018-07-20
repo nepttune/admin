@@ -19,9 +19,9 @@ trait TRestricted
     /** @var \Nepttune\Model\Authorizator */
     protected $authorizator;
 
-    public function injectRestricted(\Nepttune\Model\Authorizator $authorizator) : void
+    public function injectRestricted(\Nette\DI\Container $container) : void
     {
-        $this->authorizator = $authorizator;
+        $this->authorizator = $container->getService('authorizator');
     }
 
     public function isAllowed() : bool
