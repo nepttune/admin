@@ -36,12 +36,11 @@ trait TAccessForm
 
     public function injectAccessForm(
         \Nette\DI\Container $context,
-        \Nette\Caching\IStorage $storage,
-        \Nepttune\Model\Authorizator $authorizator) : void
+        \Nette\Caching\IStorage $storage) : void
     {
         $this->cache = new \Nette\Caching\Cache($storage, 'Nepttune.UserForm');
         $this->context = $context;
-        $this->authorizator = $authorizator;
+        $this->authorizator = $context->getService('authorizator');
     }
 
     public function attached($presenter) : void
