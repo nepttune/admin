@@ -16,7 +16,7 @@ namespace Nepttune\TI;
 
 interface IRestricted
 {
-    public function injectRestricted(\Nepttune\Model\Authorizator $authorizator) : void;
+    public function injectRestricted(\Nette\DI\Container $container) : void;
 
     public function isAllowed() : bool;
 
