@@ -18,8 +18,7 @@ interface IAccessForm
 {
     public function injectAccessForm(
         \Nette\DI\Container $context,
-        \Nette\Caching\IStorage $storage,
-        \Nepttune\Model\Authorizator $authorizator) : void;
+        \Nette\Caching\IStorage $storage) : void;
 
     public function attached($presenter) : void;
 
