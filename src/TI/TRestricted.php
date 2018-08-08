@@ -19,41 +19,44 @@ trait TRestricted
     /** @var \Nepttune\Model\Authorizator */
     protected $authorizator;
 
-    public function injectRestricted(\Nette\DI\Container $container) : void
+    /** @var \Nette\Caching\Cache */
+    protected $cache;
+
+    public function injectRestricted(
+        \Nette\DI\Container $container,
+        \Nette\Caching\IStorage $storage) : void
     {
         $this->authorizator = $container->getService('authorizator');
+        $this->cache = new \Nette\Caching\Cache($storage, 'Nepttune.Authorizator');
     }
 
     public function isAllowed() : bool
     {
+        $resource = $this->getAction(true);
+
         /** Action is not restricted */
-        if (!static::isRestricted($this->getAction()))
+        if (!\array_key_exists($resource, $this->getRestricted()))
         {
             return true;
         }
 
-        return $this->authorizator->isAllowed($this->getAction(true));
+        return $this->authorizator->isAllowed($resource);
     }
 
-    public static function isRestricted(string $action) : bool
+    public function getRestricted() : array
     {
-        $action = 'action' . ucfirst($action);
-        $handle = 'handle' . ucfirst($action);
+        $cacheName = 'restrictedActions_' . ($this->getName());
+        $return = $this->cache->load($cacheName);
 
-        /** @var \Nette\Application\UI\ComponentReflection $reflection */
-        $reflection = static::getReflection();
+        if ($return !== null)
+        {
+            return $return;
+        }
 
-        return ($reflection->hasMethod($action) && $reflection->getMethod($action)->hasAnnotation('restricted')) ||
-               ($reflection->hasMethod($handle) && $reflection->getMethod($handle)->hasAnnotation('restricted'));
-    }
-
-    public static function getRestricted() : array
-    {
         $return = [];
 
         /** @var \Nette\Application\UI\ComponentReflection $reflection */
         $reflection = static::getReflection();
-
         foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method)
         {
             if ($method->isStatic() ||
@@ -87,6 +90,8 @@ trait TRestricted
             $resource = ":{$matches[1]}:{$matches[2]}:" . lcfirst(substr($method->getName(), 6));
             $return[$resource] = $privileges;
         }
+
+        $this->cache->save($cacheName, $return);
 
         return $return;
     }
