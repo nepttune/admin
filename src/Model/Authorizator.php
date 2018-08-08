@@ -86,7 +86,7 @@ class Authorizator
         return $this->user->getId();
     }
 
-    private static function splitResource(string $resource)
+    private static function splitResource(string $resource) : array
     {
         $temp = \array_filter(\explode(':', $resource), '\strlen');
 
