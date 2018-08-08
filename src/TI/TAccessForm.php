@@ -66,6 +66,7 @@ trait TAccessForm
     public function addCheckboxes(\Nette\Application\UI\Form $form) : \Nette\Application\UI\Form
     {
         $access = $form->addContainer('access');
+        
         foreach ($this->privileges as $resource => $privileges)
         {
             $base = $access->addCheckbox($resource, "access.{$resource}");
@@ -103,7 +104,7 @@ trait TAccessForm
             /** @var \Nepttune\TI\IRestricted $presenter */
             $presenter = $this->context->getService($name);
 
-            foreach ($presenter->getRestricted() as $resource => $privileges)
+            foreach ($presenter::getRestrictedStatic() as $resource => $privileges)
             {
                 if (!$this->authorizator->isAllowed($resource))
                 {
