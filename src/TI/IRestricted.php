@@ -18,8 +18,8 @@ interface IRestricted
 {
     public function injectRestricted(\Nette\DI\Container $container, \Nette\Caching\IStorage $storage) : void;
 
-    public function isAllowed() : bool;
-
     public function getRestricted() : array;
+    
+    public static function getRestrictedStatic() : array;
 }
 
