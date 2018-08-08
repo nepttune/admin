@@ -67,17 +67,17 @@ trait TAccessForm
     {
         $access = $form->addContainer('access');
 
-        foreach ($this->privileges as $resource => $attributes)
+        foreach ($this->privileges as $resource => $privileges)
         {
             $base = $access->addCheckbox($resource, "access.{$resource}");
 
-            if (empty($attributes['privilege']))
+            if (empty($privileges))
             {
                 continue;
             }
 
             $condition = $base->addCondition($form::FILLED, true);
-            foreach ($attributes['privilege'] as $privilege)
+            foreach ($privileges as $privilege)
             {
                 $access->addCheckbox($privilege, "access.{$privilege}")
                     ->setOption('id', $privilege);
