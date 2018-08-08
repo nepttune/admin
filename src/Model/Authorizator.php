@@ -14,36 +14,68 @@ declare(strict_types = 1);
 
 namespace Nepttune\Model;
 
-final class Authorizator
+class Authorizator
 {
     use \Nette\SmartObject;
 
-    /** @var  UserAccessModel */
-    private $userAccessModel;
+    /** @var  RoleAccessModel */
+    protected $roleAccessModel;
 
     /** @var \Nette\Security\User */
-    private $user;
+    protected $user;
 
-    public function __construct(UserAccessModel $userAccessModel, \Nette\Security\User $user)
+    /** @var \Nette\Caching\Cache */
+    protected $cache;
+
+    /** @var \Nette\Application\IPresenterFactory */
+    protected $presenterFactory;
+
+    public function __construct(
+        RoleAccessModel $roleAccessModel,
+        \Nette\Security\User $user,
+        \Nette\Caching\IStorage $storage,
+        \Nette\Application\IPresenterFactory $presenterFactory)
     {
-        $this->userAccessModel = $userAccessModel;
+        $this->roleAccessModel = $roleAccessModel;
         $this->user = $user;
+        $this->cache = new \Nette\Caching\Cache($storage, 'Nepttune.Authorizator');
+        $this->presenterFactory = $presenterFactory;
     }
 
     public function isAllowed($resource, $privilege = null) : bool
     {
+        /** Root user */
         if ($this->user->isInRole('root'))
         {
             return true;
         }
 
-        return $this->userAccessModel->findByArray([
-            'user_id' => $this->user->getId(),
+        $cacheName = 'restrictedActions_' . $resource;
+        $restricted = $this->cache->load($cacheName);
+
+        if ($restricted === null)
+        {
+            list($presenter, $action) = static::splitResource($resource);
+            $presenterClass = $this->presenterFactory->getPresenterClass($presenter);
+
+            $restricted = $presenterClass::getRestrictedStatic();
+            $this->cache->save($cacheName, $restricted);
+        }
+
+        /** Action not restricted */
+        if (!\array_key_exists($resource, $restricted))
+        {
+            return true;
+        }
+
+        /** Database check */
+        return $this->roleAccessModel->findByArray([
+            'role_id' => $this->user->getIdentity()->role_id,
             'resource' => $resource,
             'privilege' => $privilege
         ])->count() > 0;
     }
-    
+
     public function isRoot() : bool
     {
         return $this->user->isInRole('root');
@@ -53,5 +85,19 @@ final class Authorizator
     {
         return $this->user->getId();
     }
-}
 
+    private static function splitResource(string $resource)
+    {
+        $temp = \array_filter(\explode(':', $resource), '\strlen');
+
+        if (\count($temp) === 3)
+        {
+            return [
+                "$temp[1]:$temp[2]",
+                $temp[3]
+            ];
+        }
+
+        return $temp;
+    }
+}
