@@ -30,19 +30,6 @@ trait TRestricted
         $this->cache = new \Nette\Caching\Cache($storage, 'Nepttune.Authorizator');
     }
 
-    public function isAllowed() : bool
-    {
-        $resource = $this->getAction(true);
-
-        /** Action is not restricted */
-        if (!\array_key_exists($resource, $this->getRestricted()))
-        {
-            return true;
-        }
-
-        return $this->authorizator->isAllowed($resource);
-    }
-
     public function getRestricted() : array
     {
         $cacheName = 'restrictedActions_' . ($this->getName());
@@ -53,6 +40,15 @@ trait TRestricted
             return $return;
         }
 
+        $return = static::getRestrictedStatic();
+
+        $this->cache->save($cacheName, $return);
+
+        return $return;
+    }
+    
+    public function getRestricted() : array
+    {
         $return = [];
 
         /** @var \Nette\Application\UI\ComponentReflection $reflection */
@@ -90,9 +86,7 @@ trait TRestricted
             $resource = ":{$matches[1]}:{$matches[2]}:" . lcfirst(substr($method->getName(), 6));
             $return[$resource] = $privileges;
         }
-
-        $this->cache->save($cacheName, $return);
-
+        
         return $return;
     }
 }
