@@ -35,7 +35,7 @@ trait TAccessForm
     protected $primaryRow;
 
     public function injectAccessForm(
-        \Nette\DI\Container $context,
+        \Nette\DI\Container $container,
         \Nette\Caching\IStorage $storage) : void
     {
         $this->container = $container;
@@ -66,18 +66,18 @@ trait TAccessForm
     public function addCheckboxes(\Nette\Application\UI\Form $form) : \Nette\Application\UI\Form
     {
         $access = $form->addContainer('access');
-        
-        foreach ($this->privileges as $resource => $privileges)
+
+        foreach ($this->privileges as $resource => $attributes)
         {
             $base = $access->addCheckbox($resource, "access.{$resource}");
 
-            if (empty($privileges))
+            if (empty($attributes['privilege']))
             {
                 continue;
             }
 
             $condition = $base->addCondition($form::FILLED, true);
-            foreach ($privileges as $privilege)
+            foreach ($attributes['privilege'] as $privilege)
             {
                 $access->addCheckbox($privilege, "access.{$privilege}")
                     ->setOption('id', $privilege);
@@ -90,29 +90,31 @@ trait TAccessForm
 
     protected function getPrivileges() : array
     {
-        $cacheName = 'restricted_privileges_' . ($this->authorizator->isRoot() ? 'root' : $this->authorizator->getUserId());
+        $cacheName = 'privileges_' . ($this->authorizator->isRoot() ? 'root' : $this->authorizator->getUserId());
         $return = $this->cache->load($cacheName);
 
         if ($return)
         {
-            return $return;
+            //return $return;
         }
 
         $return = [];
-        foreach ($this->context->findByType(\Nepttune\TI\IRestricted::class) as $name)
+        foreach ($this->container->findByType(\Nepttune\TI\IRestricted::class) as $name)
         {
             /** @var \Nepttune\TI\IRestricted $presenter */
-            $presenter = $this->context->getService($name);
+            $presenter = $this->container->getService($name);
 
-            foreach ($presenter::getRestrictedStatic() as $resource => $privileges)
+            foreach ($presenter::getRestrictedStatic() as $resource => $attributes)
             {
-                if (!$this->authorizator->isAllowed($resource))
+                /** User is not allowed or resource is set to trace */
+                if (!$this->authorizator->isAllowed($resource) ||
+                    !empty($attributes['traces']))
                 {
                     continue;
                 }
 
                 $temp = [];
-                foreach ($privileges as $privilege)
+                foreach ($attributes['privilege'] as $privilege)
                 {
                     if (!$this->authorizator->isAllowed($resource, $privilege))
                     {
