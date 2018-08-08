@@ -47,7 +47,7 @@ trait TRestricted
         return $return;
     }
     
-    public function getRestricted() : array
+    public static function getRestrictedStatic() : array
     {
         $return = [];
 
