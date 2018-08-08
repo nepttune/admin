@@ -72,19 +72,24 @@ trait TRestricted
                 continue;
             }
 
-            $privileges = [];
-
-            if ($method->hasAnnotation('privilege'))
+            $attributes = [];
+            foreach (['privilege', 'depends', 'traces'] as $attr)
             {
-                $refl = \Nette\Reflection\Method::from($reflection->getName(), $method->getName());
-                foreach ($refl->getAnnotations()['privilege'] as $privilege)
+                $attributes[$attr] = [];
+                if (!$method->hasAnnotation($attr))
                 {
-                    $privileges[] = $privilege;
+                    continue;
+                }
+
+                $refl = \Nette\Reflection\Method::from($reflection->getName(), $method->getName());
+                foreach ($refl->getAnnotations()[$attr] as $temp)
+                {
+                    $attributes[$attr][] = $temp;
                 }
             }
 
             $resource = ":{$matches[1]}:{$matches[2]}:" . lcfirst(substr($method->getName(), 6));
-            $return[$resource] = $privileges;
+            $return[$resource] = $attributes;
         }
         
         return $return;
