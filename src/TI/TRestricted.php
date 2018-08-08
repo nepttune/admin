@@ -63,7 +63,7 @@ trait TRestricted
                 continue;
             }
 
-            $regex = '/App\\\\([A-Z][a-z]*)Module\\\\Presenter\\\\([A-Z][a-z]*)Presenter/';
+            $regex = '/App\\\\([A-Za-z]*)Module\\\\Presenter\\\\([A-Za-z]*)Presenter/';
             $matches = [];
             \preg_match($regex, $reflection->getName(), $matches);
 
