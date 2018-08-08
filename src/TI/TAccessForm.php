@@ -20,10 +20,10 @@ trait TAccessForm
     protected $accessModel;
 
     /** @var \Nette\Caching\Cache */
-    private $cache;
+    protected $cache;
 
     /** @var \Nette\DI\Container */
-    private $context;
+    protected $container;
 
     /** @var \Nepttune\Model\Authorizator */
     protected $authorizator;
@@ -38,9 +38,9 @@ trait TAccessForm
         \Nette\DI\Container $context,
         \Nette\Caching\IStorage $storage) : void
     {
-        $this->cache = new \Nette\Caching\Cache($storage, 'Nepttune.UserForm');
-        $this->context = $context;
-        $this->authorizator = $context->getService('authorizator');
+        $this->container = $container;
+        $this->authorizator = $container->getService('authorizator');
+        $this->cache = new \Nette\Caching\Cache($storage, 'Nepttune.Authorizator');
     }
 
     public function attached($presenter) : void
