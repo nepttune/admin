@@ -16,12 +16,10 @@ namespace Nepttune\TI;
 
 interface IRestricted
 {
-    public function injectRestricted(\Nette\DI\Container $container) : void;
+    public function injectRestricted(\Nette\DI\Container $container, \Nette\Caching\IStorage $storage) : void;
 
     public function isAllowed() : bool;
 
-    public static function isRestricted(string $action) : bool;
-
-    public static function getRestricted() : array;
+    public function getRestricted() : array;
 }
 
