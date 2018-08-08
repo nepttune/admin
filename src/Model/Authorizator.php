@@ -42,7 +42,7 @@ class Authorizator
         $this->presenterFactory = $presenterFactory;
     }
 
-    public function isAllowed($resource, $privilege = null) : bool
+    public function isAllowed(string $resource, string $privilege = null) : bool
     {
         /** Root user */
         if ($this->user->isInRole('root'))
@@ -50,22 +50,18 @@ class Authorizator
             return true;
         }
 
-        $cacheName = 'restrictedActions_' . $resource;
-        $restricted = $this->cache->load($cacheName);
+        $restricted = $this->getRestricted($resource);
 
-        if ($restricted === null)
-        {
-            list($presenter, $action) = static::splitResource($resource);
-            $presenterClass = $this->presenterFactory->getPresenterClass($presenter);
-
-            $restricted = $presenterClass::getRestrictedStatic();
-            $this->cache->save($cacheName, $restricted);
-        }
-
-        /** Action not restricted */
+        /** Resource not restricted */
         if (!\array_key_exists($resource, $restricted))
         {
             return true;
+        }
+
+        /** Resource traces other */
+        if (!empty($restricted[$resource]['traces']))
+        {
+            $resource = array_pop($restricted[$resource]['traces']);
         }
 
         /** Database check */
@@ -86,6 +82,25 @@ class Authorizator
         return $this->user->getId();
     }
 
+    private function getRestricted(string $resource) : array
+    {
+        $cacheName = 'restrictedActions_' . $resource;
+        $restricted = $this->cache->load($cacheName);
+
+        if ($restricted !== null)
+        {
+            return $restricted;
+        }
+
+        list($presenter, $action) = static::splitResource($resource);
+        $presenterClass = $this->presenterFactory->getPresenterClass($presenter);
+        $restricted = $presenterClass::getRestrictedStatic();
+
+        $this->cache->save($cacheName, $restricted);
+
+        return $restricted;
+    }
+    
     private static function splitResource(string $resource) : array
     {
         $temp = \array_filter(\explode(':', $resource), '\strlen');
