@@ -39,12 +39,12 @@ abstract class BaseAuthPresenter extends BasePresenter implements \Nepttune\TI\I
 
     protected function startup()
     {
-        if (!$this->user->isLoggedIn())
+        if (!$this->getUser()->isLoggedIn())
         {
             $this->redirect($this->dest['signIn'], ['backlink' => $this->storeRequest()]);
         }
-        
-        if (!$this->isAllowed())
+
+        if (!$this->authorizator->isAllowed($this->getAction(true)))
         {
             throw new \Nette\Application\BadRequestException('Forbidden', 403);
         }
