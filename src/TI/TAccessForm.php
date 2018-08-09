@@ -95,7 +95,7 @@ trait TAccessForm
 
         if ($return)
         {
-            //return $return;
+            return $return;
         }
 
         $return = [];
@@ -106,8 +106,9 @@ trait TAccessForm
 
             foreach ($presenter::getRestrictedStatic() as $resource => $attributes)
             {
-                /** User is not allowed or resource is set to trace */
+                /** User is not allowed, resource is root only, resource set to trace */
                 if (!$this->authorizator->isAllowed($resource) ||
+                    !empty($attributes['root']) ||
                     !empty($attributes['traces']))
                 {
                     continue;
