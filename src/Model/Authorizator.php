@@ -52,10 +52,16 @@ class Authorizator
 
         $restricted = $this->getRestricted($resource);
 
-        /** Resource not restricted */
+        /** Resource is not restricted */
         if (!\array_key_exists($resource, $restricted))
         {
             return true;
+        }
+
+        /** Resource is root only */
+        if (!empty($restricted[$resource]['root']))
+        {
+            return false;
         }
 
         /** Resource traces other */
