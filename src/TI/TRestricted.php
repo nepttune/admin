@@ -73,7 +73,7 @@ trait TRestricted
             }
 
             $attributes = [];
-            foreach (['privilege', 'depends', 'traces'] as $attr)
+            foreach (['privilege', 'depends', 'traces', 'root'] as $attr)
             {
                 $attributes[$attr] = [];
                 if (!$method->hasAnnotation($attr))
