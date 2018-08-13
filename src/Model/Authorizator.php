@@ -59,7 +59,7 @@ class Authorizator
         }
 
         /** Resource is root only */
-        if (\array_key_exists('root', $restricted[$resource]))
+        if (!empty($restricted[$resource]['root']))
         {
             return false;
         }
