@@ -9,9 +9,8 @@
 services:
     adminRouterFactory: Nepttune\AdminRouterFactory
     
-    - Nepttune\Model\Authenticator
-    - Nepttune\Model\Authorizator
-    authenticator: @Nepttune\Model\Authenticator
+    authenticator: Nepttune\Model\Authenticator
+    authorizator: Nepttune\Model\Authorizator
 
     - Nepttune\Model\LoginLogModel
     - Nepttune\Model\UserModel
