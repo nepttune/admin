@@ -12,15 +12,11 @@
 {block #title}Login{/block}
 {block #bodyContent}
 
-<div class="container">
+<div class="container mt-5">
     <div class="jumbotron">
-        <center>
-            <h1>{$meta['name']} <small>{$meta['version']}</small></h1>
-        </center>
+        <center><h1>{$meta['name']} <small>{$meta['version']}</small></h1></center>
         {include $presenter->getFlashArea()}
-        <h2>
-            {icon unlock} {_admin.sign.in.title}
-        </h2>
+        <h2 class="mb-4">{icon unlock} {_admin.sign.in.title}</h2>
         {control loginForm}
     </div>
 </div>
