@@ -16,33 +16,21 @@ namespace Nepttune\Component;
 
 use \Nette\Application\UI\Form;
 
-class UserForm extends BaseFormComponent implements \Nepttune\TI\IAccessForm
+class UserForm extends BaseFormComponent
 {
-    use \Nepttune\TI\TAccessForm;
-
     const REDIRECT = ':default';
-    const TEMPLATE_PATH = __DIR__ . '/UserForm.latte';
 
     /** @var \Nepttune\Model\RoleModel */
     protected $roleModel;
 
     public function __construct(
         \Nepttune\Model\UserModel $userModel,
-        \Nepttune\Model\UserAccessModel $userAccessModel,
         \Nepttune\Model\RoleModel $roleModel)
     {
         parent::__construct();
 
         $this->repository = $userModel;
-        $this->accessModel = $userAccessModel;
         $this->roleModel = $roleModel;
-    }
-
-    public function render() : void
-    {
-        $this->template->roles = $this->roleModel->findActive();
-
-        parent::render();
     }
 
     protected function modifyForm(Form $form) : Form
@@ -53,46 +41,38 @@ class UserForm extends BaseFormComponent implements \Nepttune\TI\IAccessForm
         $form->addPassword('password', 'admin.password');
         $form->addPassword('password2', 'admin.password_again')
             ->addCondition($form::EQUAL, $form['password']);
+        $form->addSelect('role_id', 'Přednastavená role', $this->roleModel->findActive()->fetchPairs('id', 'name'))
+            ->setPrompt('Vyberte roli');
 
-        if (!$this->rowId)
+        if ($this->rowId)
         {
+            $form['username']->setDisabled();
+        }
+        else
+        {
+            $form['username']->setRequired();
             $form['password']->setRequired();
             $form['password2']->setRequired();
         }
-
-        $form->addSelect('role', 'Přednastavená role', $this->roleModel->findActive()->fetchPairs('id', 'name'))
-            ->setPrompt('Vyberte roli')
-            ->setOmitted();
-
-        $form = $this->addCheckboxes($form);
 
         return $form;
     }
 
     public function formSuccess(\Nette\Application\UI\Form $form, \stdClass $values) : void
     {
-        $access = \array_filter((array) $values->access, function ($value) {return $value === true;});
-        unset($values->password2, $values->access);
-
         if (!$values->password)
         {
             unset($values->password);
         }
-        if ($this->rowId)
+
+        if (!$this->rowId)
         {
-            $values->id = $this->rowId;
+            $values->registered = new \Nette\Utils\DateTime();
         }
-        $values->registered = new \Nette\Utils\DateTime();
+
+        unset($values->password2);
         $values->password = \Nette\Security\Passwords::hash($values->password);
 
-        $this->accessModel->transaction(function() use ($values, $access)
-        {
-            $row = $this->repository->save((array) $values);
-            $this->accessModel->delete(['user_id' => $row->id]);
-            $this->accessModel->insertMany(static::createInsertArray($row->id, $access));
-        });
-
-        $this->getPresenter()->flashMessage($this->translator->translate('global.flash.save_success'), 'success');
-        $this->getPresenter()->redirect(static::REDIRECT);
+        parent::formSuccess($form, $values);
     }
 }
