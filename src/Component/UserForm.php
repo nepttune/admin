@@ -18,7 +18,7 @@ use \Nette\Application\UI\Form;
 
 class UserForm extends BaseFormComponent
 {
-    const REDIRECT = ':default';
+    protected const REDIRECT = ':default';
 
     /** @var \Nepttune\Model\RoleModel */
     protected $roleModel;
