@@ -14,7 +14,7 @@ declare(strict_types = 1);
 
 namespace Nepttune\Presenter;
 
-abstract class UserPresenter extends BasePresenter
+abstract class UserPresenter extends BaseAuthPresenter
 {
     /**
      * @inject
