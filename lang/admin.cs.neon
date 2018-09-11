@@ -15,6 +15,7 @@ logout: 'Odhlásit'
 username: 'Uživatelské jméno'
 password: 'Heslo'
 password_again: 'Heslo znovu'
+role_id: 'Role'
 
 flash:
     sign_in: 'Uživatel úspěšně přihlášen.'
