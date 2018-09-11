@@ -28,12 +28,12 @@ abstract class UserPresenter extends BaseAuthPresenter
      */
     public $iUserListFactory;
 
-    protected function createComponentUserForm()
+    protected function createComponentUserForm() : \Nepttune\Component\UserForm
     {
         return $this->iUserFormFactory->create();
     }
 
-    protected function createComponentUserList()
+    protected function createComponentUserList() : \Nepttune\Component\UserList
     {
         return $this->iUserListFactory->create();
     }
