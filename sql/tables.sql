@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `role_access`
   `id`        INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `role_id`   INT(10) UNSIGNED            NOT NULL,
   `resource`  VARCHAR(255)                NOT NULL,
-  `privilege` VARCHAR(255)                NOT NULL,
+  `privilege` VARCHAR(255)                DEFAULT NULL,
 
   CONSTRAINT `role_access_role_id_fk`
   FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
