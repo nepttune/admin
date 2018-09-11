@@ -20,7 +20,7 @@ class RoleForm extends BaseFormComponent implements \Nepttune\TI\IAccessForm
 {
     use \Nepttune\TI\TAccessForm;
 
-    const REDIRECT = ':default';
+    protected const REDIRECT = ':default';
 
     public function __construct(
         \Nepttune\Model\RoleModel $roleModel,
