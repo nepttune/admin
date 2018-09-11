@@ -28,12 +28,12 @@ abstract class RolePresenter extends BaseAuthPresenter
      */
     public $iRoleListFactory;
     
-    protected function createComponentRoleForm()
+    protected function createComponentRoleForm() : \Nepttune\Component\RoleForm
     {
         return $this->iRoleFormFactory->create();
     }
     
-    protected function createComponentRoleList()
+    protected function createComponentRoleList() : \Nepttune\Component\RoleList
     {
         return $this->iRoleListFactory->create();
     }
