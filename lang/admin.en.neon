@@ -15,6 +15,7 @@ logout: 'Logout'
 username: 'Username'
 password: 'Password'
 password_again: 'Password again'
+role_id: 'Role'
 
 flash:
     sign_in: 'Successfully logged in.'
