@@ -32,6 +32,9 @@ class UserList extends BaseListComponent
     {
         $grid->addColumnText('username', 'admin.username')
             ->setSortable();
+        $grid->addColumnText('role_id', 'admin.role_id')
+            ->setSortable()
+            ->setRenderer(function($row){return $row->role ? $row->role->name : null;});
 
         return $grid;
     }
