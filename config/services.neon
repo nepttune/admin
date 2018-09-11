@@ -14,7 +14,6 @@ services:
 
     - Nepttune\Model\LoginLogModel
     - Nepttune\Model\UserModel
-    - Nepttune\Model\UserAccessModel
     - Nepttune\Model\RoleModel
     - Nepttune\Model\RoleAccessModel
     - Nepttune\Model\SubscriptionTypeModel
