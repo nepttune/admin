@@ -44,6 +44,12 @@ class Authorizator
 
     public function isAllowed(string $resource, string $privilege = null) : bool
     {
+        /** Input check - prevents false positives */
+        if (\substr_count($resource, ':') !== 3)
+        {
+            throw new \Nette\InvalidStateException('Invalid destination provided. Enter FQN.');
+        }
+        
         /** Root user */
         if ($this->user->isInRole('root'))
         {
