@@ -37,7 +37,7 @@ abstract class BaseAuthPresenter extends BasePresenter implements \Nepttune\TI\I
         $this->iBreadcrumbFactory = $IBreadcrumbFactory;
     }
 
-    protected function startup()
+    public function checkRequirements($element)
     {
         if (!$this->getUser()->isLoggedIn())
         {
@@ -48,15 +48,13 @@ abstract class BaseAuthPresenter extends BasePresenter implements \Nepttune\TI\I
         {
             throw new \Nette\Application\BadRequestException('Forbidden', 403);
         }
-
-        parent::startup();
     }
 
-    protected function beforeRender()
+    protected function beforeRender() : void
     {
-        $this->template->admin = $this->admin;
-
         parent::beforeRender();
+
+        $this->template->admin = $this->admin;
     }
 
     public static function getDefaultLayout() : string
