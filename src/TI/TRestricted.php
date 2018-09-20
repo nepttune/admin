@@ -47,6 +47,11 @@ trait TRestricted
         return $return;
     }
     
+    public function getAuthorizator() : \Nepttune\Model\Authorizator
+    {
+        return $this->authorizator;
+    }
+    
     public static function getRestrictedStatic() : array
     {
         $return = [];
