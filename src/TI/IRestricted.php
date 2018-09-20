@@ -20,6 +20,8 @@ interface IRestricted
 
     public function getRestricted() : array;
     
+    public function getAuthorizator() : \Nepttune\Model\Authorizator;
+    
     public static function getRestrictedStatic() : array;
 }
 
