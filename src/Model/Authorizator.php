@@ -42,14 +42,16 @@ class Authorizator
         $this->presenterFactory = $presenterFactory;
     }
 
+    /**
+     * Checks whether current user is allowed to access resource.
+     * @param string $resource
+     * @param string|null $privilege
+     * @return bool
+     */
     public function isAllowed(string $resource, string $privilege = null) : bool
     {
-        /** Input check - prevents false positives */
-        if (\substr_count($resource, ':') !== 3)
-        {
-            throw new \Nette\InvalidStateException('Invalid destination provided. Enter FQN.');
-        }
-        
+        $this->validateResource($resource);
+
         /** Root user */
         if ($this->user->isInRole('root'))
         {
@@ -78,20 +80,49 @@ class Authorizator
 
         /** Database check */
         return $this->roleAccessModel->findByArray([
-            'role_id' => $this->user->getIdentity()->role_id,
+            'role_id' => $this->getRoleId(),
             'resource' => $resource,
             'privilege' => $privilege
         ])->count() > 0;
     }
 
+    /**
+     * Checks wherther current user is root.
+     */
     public function isRoot() : bool
     {
         return $this->user->isInRole('root');
     }
 
+    /**
+     * Returns user id of current user.
+     * @return int
+     */
     public function getUserId() : int
     {
         return $this->user->getId();
+    }
+
+    /**
+     * Returns role id of current user.
+     * @return int|null
+     */
+    public function getRoleId() : ?int
+    {
+        return $this->user->getIdentity()->role_id;
+    }
+
+    /**
+     * Validates format of resource string - avoids possible false positives.
+     * @param string $resource
+     * @throws \Nette\InvalidStateException
+     */
+    protected function validateResource(string $resource) : void
+    {
+        if (\substr_count($resource, ':') !== 3)
+        {
+            throw new \Nette\InvalidStateException('Invalid destination provided. Enter FQN.');
+        }
     }
 
     private function getRestricted(string $resource) : array
@@ -109,7 +140,6 @@ class Authorizator
         $restricted = $presenterClass::getRestrictedStatic();
 
         $this->cache->save($cacheName, $restricted);
-
         return $restricted;
     }
     
