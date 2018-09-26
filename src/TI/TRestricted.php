@@ -30,6 +30,11 @@ trait TRestricted
         $this->cache = new \Nette\Caching\Cache($storage, 'Nepttune.Authorizator');
     }
 
+    public function getAuthorizator() : \Nepttune\Model\Authorizator
+    {
+        return $this->authorizator;
+    }
+
     public function getRestricted() : array
     {
         $cacheName = 'restrictedActions_' . ($this->getName());
@@ -45,11 +50,6 @@ trait TRestricted
         $this->cache->save($cacheName, $return);
 
         return $return;
-    }
-    
-    public function getAuthorizator() : \Nepttune\Model\Authorizator
-    {
-        return $this->authorizator;
     }
     
     public static function getRestrictedStatic() : array
@@ -78,7 +78,7 @@ trait TRestricted
             }
 
             $attributes = [];
-            foreach (['privilege', 'depends', 'traces', 'root'] as $attr)
+            foreach (['privilege', 'root', 'depends', 'traces', 'morphs'] as $attr)
             {
                 $attributes[$attr] = [];
                 if (!$method->hasAnnotation($attr))
