@@ -30,6 +30,9 @@ class Authorizator
     /** @var \Nette\Application\IPresenterFactory */
     protected $presenterFactory;
 
+    /** @var \Nette\Http\Request */
+    protected $request;
+
     public function __construct(
         RoleAccessModel $roleAccessModel,
         \Nette\Security\User $user,
@@ -48,42 +51,64 @@ class Authorizator
      * @param string|null $privilege
      * @return bool
      */
-    public function isAllowed(string $resource, string $privilege = null) : bool
+    public function isAllowed(string $resource, string $privilege = null, array $params = []) : bool
     {
-        $this->validateResource($resource);
+        static::validateResource($resource);
 
         /** Root user */
-        if ($this->user->isInRole('root'))
+        if ($this->isRoot())
         {
             return true;
         }
 
-        $restricted = $this->getRestricted($resource);
-
-        /** Resource is not restricted */
-        if (!\array_key_exists($resource, $restricted))
+        while (true)
         {
-            return true;
-        }
+            $restricted = $this->getRestricted($resource);
 
-        /** Resource is root only */
-        if (!empty($restricted[$resource]['root']))
-        {
-            return false;
-        }
+            /** Resource is not restricted */
+            if (!\array_key_exists($resource, $restricted))
+            {
+                return true;
+            }
 
-        /** Resource traces other */
-        if (!empty($restricted[$resource]['traces']))
-        {
-            $resource = array_pop($restricted[$resource]['traces']);
-        }
+            /** Resource is root only */
+            if (!empty($restricted[$resource]['root']))
+            {
+                return false;
+            }
 
-        /** Database check */
-        return $this->roleAccessModel->findByArray([
-            'role_id' => $this->getRoleId(),
-            'resource' => $resource,
-            'privilege' => $privilege
-        ])->count() > 0;
+            /** Resource traces other */
+            if (!empty($restricted[$resource]['traces']))
+            {
+                $resource = \array_pop($restricted[$resource]['traces']);
+                static::validateResource($resource);
+                continue;
+            }
+
+            /**
+             * Resource morphs into other
+             * This option is not ideal and designed just for edge cases.
+             */
+            if (!empty($restricted[$resource]['morphs']))
+            {
+                $resource = $this->handleMorph(\array_pop($restricted[$resource]['morphs']), $resource, $params);
+
+                if (\is_bool($resource))
+                {
+                    return $resource;
+                }
+
+                static::validateResource($resource);
+                continue;
+            }
+
+            /** Database check */
+            return $this->roleAccessModel->findByArray([
+                'role_id' => $this->getRoleId(),
+                'resource' => $resource,
+                'privilege' => $privilege
+            ])->count() > 0;
+        }
     }
 
     /**
@@ -117,7 +142,7 @@ class Authorizator
      * @param string $resource
      * @throws \Nette\InvalidStateException
      */
-    protected function validateResource(string $resource) : void
+    protected static function validateResource(string $resource) : void
     {
         if (\substr_count($resource, ':') !== 3)
         {
@@ -156,5 +181,18 @@ class Authorizator
         }
 
         return $temp;
+    }
+
+    private function handleMorph(string $morph, string $resource = null, array $params = [])
+    {
+        if (\is_callable($morph))
+        {
+            return \call_user_func($function, $params);
+        }
+
+        list($presenterName, $action) = static::splitResource($resource);
+        $presenter = $this->presenterFactory->createPresenter($presenterName);
+
+        return \call_user_func([$presenter, $morph], $params);
     }
 }
