@@ -50,8 +50,11 @@
                             {/if}
                             <li class="user-footer">
                                 {if $dest['userProfile']}
-                                    <div class="pull-left">
-                                        <a href="{plink $dest['userProfile'], id => $user->getId()}" class="btn btn-default btn-flat">{_admin.profile}</a>
+                                    <div class="pull-left btn-group">
+                                        <a href="{plink $dest['userProfile'], id => $user->getId()}" class="btn btn-default btn-flat">{icon user}</a>
+                                        {if $dest['userSettings']}
+                                            <a href="{plink $dest['userSettings']}" class="btn btn-default btn-flat">{icon cog}</a>
+                                        {/if}
                                     </div>
                                 {/if}
                                 <div class="pull-right">
