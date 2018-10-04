@@ -8,6 +8,7 @@
 
 member_since: 'Member since'
 profile: 'Profile'
+settings: 'Settings'
 
 login: 'Login'
 logout: 'Logout'
