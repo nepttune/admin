@@ -43,7 +43,7 @@ trait TAccessForm
         $this->cache = new \Nette\Caching\Cache($storage, 'Nepttune.Authorizator');
     }
 
-    public function attached($presenter) : void
+    protected function attached($presenter) : void
     {
         $this->privileges = $this->getPrivileges();
         $this->primaryRow = $this instanceof \Nepttune\Component\UserForm ? 'user_id' : 'role_id';
