@@ -20,8 +20,6 @@ interface IAccessForm
         \Nette\DI\Container $context,
         \Nette\Caching\IStorage $storage) : void;
 
-    public function attached($presenter) : void;
-
     public function setDefaults(int $rowId) : void;
 
     public function addCheckboxes(\Nette\Application\UI\Form $form) : \Nette\Application\UI\Form;
