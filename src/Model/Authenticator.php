@@ -16,7 +16,7 @@ namespace Nepttune\Model;
 
 use Nette\Security as NS;
 
-final class Authenticator implements NS\IAuthenticator
+class Authenticator implements NS\IAuthenticator
 {
     use \Nette\SmartObject;
 
