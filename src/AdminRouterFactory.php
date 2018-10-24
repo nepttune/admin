@@ -19,7 +19,7 @@ use Nette\Application\Routers\RouteList,
 
 class AdminRouterFactory extends RouterFactory
 {
-    public function createStandardRouter(string $defaultModule = null) : RouteList
+    public function createStandardRouter() : RouteList
     {
         $router = static::createRouteList();
         $router[] = new Route('/[<locale>/]admin/<presenter>/<action>[/<id>]', [
@@ -29,7 +29,7 @@ class AdminRouterFactory extends RouterFactory
             'action' => 'default',
             'id' => $this->getIdConfig()
         ]);
-        $router = static::addStandardRoutes($router, $defaultModule);
+        $router = $this->addStandardRoutes($router);
 
         return $router;
     }
