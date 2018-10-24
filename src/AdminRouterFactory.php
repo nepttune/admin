@@ -19,7 +19,7 @@ use Nette\Application\Routers\RouteList,
 
 class AdminRouterFactory extends RouterFactory
 {
-    public static function createStandardRouter(string $defaultModule = null) : RouteList
+    public function createStandardRouter(string $defaultModule = null) : RouteList
     {
         $router = static::createRouteList();
         $router[] = new Route('/[<locale>/]admin/<presenter>/<action>[/<id>]', [
