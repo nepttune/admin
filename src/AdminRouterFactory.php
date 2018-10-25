@@ -27,7 +27,8 @@ class AdminRouterFactory extends RouterFactory
             'module' => 'Admin',
             'presenter' => 'Default',
             'action' => 'default',
-            'id' => $this->getIdConfig()
+            'id' => $this->getIdConfig(),
+            null => $this->getGlobalConfig()
         ]);
         $router = $this->addStandardRoutes($router);
 
