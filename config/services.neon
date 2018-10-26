@@ -7,8 +7,6 @@
 # <https://www.peldax.com>.
 
 services:
-    adminRouterFactory: Nepttune\AdminRouterFactory
-    
     authenticator: Nepttune\Model\Authenticator
     authorizator: Nepttune\Model\Authorizator
 
