@@ -29,7 +29,7 @@ class RoleForm extends BaseFormComponent implements \Nepttune\TI\IAccessForm
         parent::__construct();
 
         $this->repository = $roleModel;
-        $this->accessModel = $roleAccessModel;
+        $this->roleAccessModel = $roleAccessModel;
     }
 
     protected function modifyForm(Form $form) : Form
@@ -53,11 +53,11 @@ class RoleForm extends BaseFormComponent implements \Nepttune\TI\IAccessForm
             $values->id = $this->rowId;
         }
 
-        $this->accessModel->transaction(function() use ($values, $access)
+        $this->roleAccessModel->transaction(function() use ($values, $access)
         {
             $row = $this->repository->save((array) $values);
-            $this->accessModel->delete(['role_id' => $row->id]);
-            $this->accessModel->insertMany(static::createInsertArray($row->id, $access));
+            $this->roleAccessModel->delete(['role_id' => $row->id]);
+            $this->roleAccessModel->insertMany(static::createInsertArray($row->id, $access));
         });
 
         $this->getPresenter()->flashMessage($this->translator->translate('global.flash.save_success'), 'success');
