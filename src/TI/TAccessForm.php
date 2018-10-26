@@ -17,7 +17,7 @@ namespace Nepttune\TI;
 trait TAccessForm
 {
     /** @var \Nepttune\Model\RoleAccessModel */
-    protected $accessModel;
+    protected $roleAccessModel;
 
     /** @var \Nette\Caching\Cache */
     protected $cache;
@@ -30,9 +30,6 @@ trait TAccessForm
 
     /** @var array */
     protected $privileges = [];
-    
-    /** @var string */
-    protected $primaryRow;
 
     public function injectAccessForm(
         \Nette\DI\Container $container,
@@ -41,9 +38,8 @@ trait TAccessForm
         $this->container = $container;
         $this->authorizator = $container->getService('authorizator');
         $this->cache = new \Nette\Caching\Cache($storage, 'Nepttune.Authorizator');
-        
+
         $this->privileges = $this->getPrivileges();
-        $this->primaryRow = $this instanceof \Nepttune\Component\UserForm ? 'user_id' : 'role_id';
     }
 
     public function setDuplicate(int $rowId) : void
@@ -51,7 +47,7 @@ trait TAccessForm
         $data = $this->repository->findRow($rowId)->fetch()->toArray();
 
         $access = [];
-        foreach($this->accessModel->findBy($this->primaryRow, $rowId) as $row)
+        foreach($this->roleAccessModel->findBy('role_id', $rowId) as $row)
         {
             $access[static::formatInput($row->resource, $row->privilege)] = true;
         }
@@ -159,7 +155,7 @@ trait TAccessForm
             $temp = static::formatResource($name);
 
             $insert[] = [
-                $this->primaryRow => $id,
+                'role_id' => $id,
                 'resource' => $temp[0],
                 'privilege' => $temp[1]
             ];
