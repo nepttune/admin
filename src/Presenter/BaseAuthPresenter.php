@@ -55,6 +55,12 @@ abstract class BaseAuthPresenter extends BasePresenter implements \Nepttune\TI\I
         parent::beforeRender();
 
         $this->template->admin = $this->admin;
+        $this->template->collapsedMenu = $this->session->getSection('nepttune')->collapsedMenu;
+    }
+    
+    public function handleMenuState() : void
+    {
+        $this->session->getSection('nepttune')->collapsedMenu = (bool) $this->getParameter('state');
     }
 
     public static function getDefaultLayout() : string
