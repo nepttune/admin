@@ -9,7 +9,7 @@
 *}
 
 {layout $presenter::getCoreLayout()}
-{block #bodyTag}<body class="hold-transition sidebar-mini skin-red">{/block}
+{block #bodyTag}<body class="hold-transition sidebar-mini skin-red {if $collapsedMenu}sidebar-collapse{/if}">{/block}
 {block #bodyContent}
 
 <div class="wrapper">
@@ -99,3 +99,4 @@
         {control $admin['sidebar']}
     {/if}
 </div>
+<script n:nonce>var url_menuState = {link menuState!};</script>
