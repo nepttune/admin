@@ -14,7 +14,7 @@ declare(strict_types = 1);
 
 namespace Nepttune\Model;
 
-final class UserSubscriptionTypeModel extends BaseModel
+final class UserSubscriptionTypeModel extends BaseTable
 {
     const TABLE_NAME = 'user_subscription_type';
 }
