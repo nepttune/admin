@@ -14,7 +14,7 @@ declare(strict_types = 1);
 
 namespace Nepttune\Model;
 
-final class RoleAccessModel extends BaseModel
+final class RoleAccessModel extends BaseTable
 {
     const TABLE_NAME = 'role_access';
 }
