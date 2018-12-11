@@ -14,7 +14,7 @@ declare(strict_types = 1);
 
 namespace Nepttune\Model;
 
-final class LoginLogModel extends BaseModel
+final class LoginLogModel extends BaseTable
 {
     const TABLE_NAME = 'log_login';
 }
