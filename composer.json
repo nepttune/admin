@@ -11,7 +11,7 @@
     }
   ],
   "require": {
-    "nepttune/nepttune": "^4.0",
+    "nepttune/nepttune": "^4.19",
     "nepttune/extra-menu": "^4.0"
   },
   "autoload": {
