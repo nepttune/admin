@@ -20,8 +20,6 @@ class RoleForm extends BaseFormComponent implements \Nepttune\TI\IAccessForm
 {
     use \Nepttune\TI\TAccessForm;
 
-    protected const REDIRECT = ':default';
-
     public function __construct(
         \Nepttune\Model\RoleModel $roleModel,
         \Nepttune\Model\RoleAccessModel $roleAccessModel)
@@ -55,12 +53,9 @@ class RoleForm extends BaseFormComponent implements \Nepttune\TI\IAccessForm
 
         $this->roleAccessModel->transaction(function() use ($values, $access)
         {
-            $row = $this->repository->save((array) $values);
-            $this->roleAccessModel->delete(['role_id' => $row->id]);
+            $row = $this->repository->upsert((array) $values);
+            $this->roleAccessModel->deleteByArray(['role_id' => $row->id]);
             $this->roleAccessModel->insertMany(static::createInsertArray($row->id, $access));
         });
-
-        $this->getPresenter()->flashMessage($this->translator->translate('global.flash.save_success'), 'success');
-        $this->getPresenter()->redirect(static::REDIRECT);
     }
 }
