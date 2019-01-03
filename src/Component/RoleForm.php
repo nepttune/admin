@@ -46,16 +46,25 @@ class RoleForm extends BaseFormComponent implements \Nepttune\TI\IAccessForm
         $access = \array_filter((array) $values->access, function ($value) {return $value === true;});
         unset($values->access);
 
+        $rowId = 0;
+
         if ($this->rowId)
         {
             $values->id = $this->rowId;
         }
 
-        $this->roleAccessModel->transaction(function() use ($values, $access)
+        $this->roleAccessModel->transaction(function() use ($values, $access, &$rowId)
         {
             $row = $this->repository->upsert((array) $values);
             $this->roleAccessModel->deleteByArray(['role_id' => $row->id]);
             $this->roleAccessModel->insertMany(static::createInsertArray($row->id, $access));
+
+            $rowId = $row->id;
         });
+
+        if ($this->saveCallback)
+        {
+            $this->saveCallback($form, $values, $rowId);
+        }
     }
 }
