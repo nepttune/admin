@@ -32,6 +32,8 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             {if $user->identity->image}
                                 <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                            {else}
+                                {icon user}
                             {/if}
                             <span class="hidden-xs">{$user->identity->username}</span>
                         </a>
