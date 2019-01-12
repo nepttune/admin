@@ -25,17 +25,18 @@ abstract class SignPresenter extends BasePresenter
      */
     public $iLoginFormFactory;
 
+    public function renderIn()
+    {
+        $this->assetsRecaptcha = true;
+        $this->template->setFile(__DIR__ . '/../templates/Sign/in.latte');
+    }
+    
     public function actionOut()
     {
         $this->getUser()->logout();
 
         $this->flashMessage($this->translator->translate('admin.flash.sign_out'), 'success');
         $this->redirect($this->dest['signIn']);
-    }
-    
-    public function renderIn()
-    {
-        $this->template->setFile(__DIR__ . '/../templates/Sign/in.latte');
     }
 
     protected function createComponentLoginForm()
