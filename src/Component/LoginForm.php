@@ -49,8 +49,12 @@ final class LoginForm extends BaseFormComponent
 
     protected function modifyForm(Form $form) : Form
     {
-        $form->addText('username', 'admin.username')->setRequired();
-        $form->addPassword('password', 'admin.password')->setRequired();
+        $form->addText('username', 'admin.username')
+            ->setRequired()
+            ->setAttribute('autocomplete', 'username');
+        $form->addPassword('password', 'admin.password')
+            ->setRequired()
+            ->setAttribute('autocomplete', 'current-password');
 
         $ids = $this->loginLogModel->findAll()
             ->where('ip_address', inet_pton($this->request->getRemoteAddress()))
