@@ -42,7 +42,15 @@ abstract class SignPresenter extends BasePresenter
     protected function createComponentLoginForm()
     {
         $control = $this->iLoginFormFactory->create();
-        $control->setRedirect($this->dest['adminHomepage']);
+        $control->saveCallback = function () {
+            $this->flashMessage('admin.flash.sign_in', 'success');
+            $this->restoreRequest($this->getPresenter()->getParameter('backlink'));
+            $this->redirect($this->dest['adminHomepage']);
+        };
+        $control->failureCallback = function ($form, $msg) {
+            $this->flashMessage($msg, 'danger');
+            $this->redirect('this');
+        };
         return $control;
     }
 }
