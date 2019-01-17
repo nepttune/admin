@@ -18,9 +18,6 @@ use \Nette\Application\UI\Form;
 
 final class LoginForm extends BaseFormComponent
 {
-    /** @var  string */
-    protected $redirectSignIn;
-
     /** @var  \Nepttune\Model\LoginLogModel */
     protected $loginLogModel;
 
@@ -40,11 +37,6 @@ final class LoginForm extends BaseFormComponent
         $this->loginLogModel = $loginLogModel;
         $this->request = $request;
         $this->user = $user;
-    }
-
-    public function setRedirect(string $redirect)
-    {
-        $this->redirectSignIn = $redirect;
     }
 
     protected function modifyForm(Form $form) : Form
@@ -93,12 +85,9 @@ final class LoginForm extends BaseFormComponent
 
         if ($failure)
         {
-            $this->getPresenter()->flashMessage($this->translator->translate($failure), 'danger');
-            $this->getPresenter()->redirect('this');
+            $this->failureCallback($form, $failure);
         }
 
-        $this->getPresenter()->flashMessage($this->translator->translate('admin.flash.sign_in'), 'success');
-        $this->getPresenter()->restoreRequest($this->getPresenter()->getParameter('backlink'));
-        $this->getPresenter()->redirect($this->redirectSignIn);
+        $this->saveCallback($form, $values);
     }
 }
