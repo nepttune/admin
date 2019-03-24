@@ -16,7 +16,7 @@ namespace Nepttune\Component;
 
 use \Nette\Application\UI\Form;
 
-final class LoginForm extends BaseFormComponent
+class LoginForm extends BaseFormComponent
 {
     /** @var  \Nepttune\Model\LoginLogModel */
     protected $loginLogModel;
@@ -48,18 +48,23 @@ final class LoginForm extends BaseFormComponent
             ->setRequired()
             ->setAttribute('autocomplete', 'current-password');
 
-        $ids = $this->loginLogModel->findAll()
-            ->where('ip_address', inet_pton($this->request->getRemoteAddress()))
-            ->order('id DESC')
-            ->limit(5)
-            ->fetchPairs(null, 'id');
-
-        if ($this->loginLogModel->findAll()->where('id', $ids)->where('result', 'failure')->count() === 5)
+        if ($this->shouldRenderRecaptcha())
         {
             $form->addReCaptcha('recaptcha', 'form.recaptcha', 'form.error.recaptcha');
         }
 
         return $form;
+    }
+
+    protected function shouldRenderRecaptcha() : bool
+    {
+        $ids = $this->loginLogModel->findAll()
+            ->where('ip_address', \inet_pton($this->request->getRemoteAddress()))
+            ->order('id DESC')
+            ->limit(5)
+            ->fetchPairs(null, 'id');
+
+        return $this->loginLogModel->findAll()->where('id', $ids)->where('result', 'failure')->count() === 5;
     }
 
     public function formSuccess(\Nette\Application\UI\Form $form, \stdClass $values) : void
@@ -79,7 +84,7 @@ final class LoginForm extends BaseFormComponent
         $this->loginLogModel->insert([
             'datetime' => new \Nette\Utils\DateTime(),
             'result' => (bool) $failure ? 'failure' : 'success',
-            'ip_address' => inet_pton($this->request->getRemoteAddress()),
+            'ip_address' => \inet_pton($this->request->getRemoteAddress()),
             'username' => $values->username
         ]);
 
