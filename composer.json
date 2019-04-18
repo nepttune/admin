@@ -11,8 +11,8 @@
     }
   ],
   "require": {
-    "nepttune/nepttune": "^4.19",
-    "nepttune/extra-menu": "^4.0"
+    "nepttune/nepttune": "^5.0",
+    "nepttune/extra-menu": "^5.0"
   },
   "autoload": {
     "psr-4": {
