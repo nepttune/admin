@@ -11,7 +11,7 @@
     }
   ],
   "require": {
-    "nepttune/nepttune": "^5.0",
+    "nepttune/nepttune": "dev-master",
     "nepttune/extra-menu": "^5.0"
   },
   "autoload": {
