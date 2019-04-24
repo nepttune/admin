@@ -37,7 +37,7 @@ abstract class BaseAuthPresenter extends BasePresenter implements \Nepttune\TI\I
         $this->iBreadcrumbFactory = $IBreadcrumbFactory;
     }
 
-    public function checkRequirements($element)
+    public function checkRequirements($element) : void
     {
         if (!$this->getUser()->isLoggedIn())
         {
