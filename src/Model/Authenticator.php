@@ -28,7 +28,7 @@ class Authenticator implements NS\IAuthenticator
         $this->userModel = $userModel;
     }
     
-    public function authenticate(array $credentials)
+    public function authenticate(array $credentials) : NS\IIdentity
     {
         list($username, $password) = $credentials;
         $row = $this->userModel->findAll()
