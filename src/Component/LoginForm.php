@@ -32,8 +32,6 @@ class LoginForm extends BaseFormComponent
         \Nette\Http\Request $request,
         \Nette\Security\User $user)
     {
-        parent::__construct();
-        
         $this->loginLogModel = $loginLogModel;
         $this->request = $request;
         $this->user = $user;
