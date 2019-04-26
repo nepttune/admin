@@ -24,8 +24,6 @@ class RoleForm extends BaseFormComponent implements \Nepttune\TI\IAccessForm
         \Nepttune\Model\RoleModel $roleModel,
         \Nepttune\Model\RoleAccessModel $roleAccessModel)
     {
-        parent::__construct();
-
         $this->repository = $roleModel;
         $this->roleAccessModel = $roleAccessModel;
     }
