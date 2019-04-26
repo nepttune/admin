@@ -22,9 +22,7 @@ class RoleList extends BaseListComponent
     protected $edit = ':edit';
 
     public function __construct(\Nepttune\Model\RoleModel $roleModel)
-    {
-        parent::__construct();
-        
+    {  
         $this->repository = $roleModel;
     }
 
