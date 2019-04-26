@@ -27,8 +27,6 @@ class UserForm extends BaseFormComponent
         \Nepttune\Model\UserModel $userModel,
         \Nepttune\Model\RoleModel $roleModel)
     {
-        parent::__construct();
-
         $this->repository = $userModel;
         $this->roleModel = $roleModel;
     }
