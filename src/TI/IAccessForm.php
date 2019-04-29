@@ -16,7 +16,7 @@ namespace Nepttune\TI;
 
 interface IAccessForm
 {
-    public function injectAccessForm(
+    public function decorateAccessForm(
         \Nette\DI\Container $context,
         \Nette\Caching\IStorage $storage) : void;
 
