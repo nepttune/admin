@@ -31,7 +31,7 @@ trait TAccessForm
     /** @var array */
     protected $privileges = [];
 
-    public function injectAccessForm(
+    public function decorateAccessForm(
         \Nette\DI\Container $container,
         \Nette\Caching\IStorage $storage) : void
     {
