@@ -7,5 +7,40 @@
 # <https://www.peldax.com>.
 
 includes:
-    - services.neon
     - parameters.neon
+    
+services:
+    - Nepttune\Model\LoginLogModel
+    - Nepttune\Model\UserModel
+    - Nepttune\Model\RoleModel
+    - Nepttune\Model\RoleAccessModel
+    - Nepttune\Model\SubscriptionTypeModel
+    - Nepttune\Model\UserSubscriptionTypeModel
+    - Nepttune\Component\IUserFormFactory
+    - Nepttune\Component\IUserListFactory
+    - Nepttune\Component\IRoleFormFactory
+    - Nepttune\Component\IRoleListFactory
+    - Nepttune\Component\ILoginFormFactory
+    - Nepttune\Component\IBreadcrumbFactory
+    
+    authenticator: Nepttune\Model\Authenticator
+    authorizator: Nepttune\Model\Authorizator
+    configMenuFactory:
+        implement: Nepttune\Component\IConfigMenuFactory
+        arguments:
+            - '%configMenu%'
+
+decorator:
+    Nepttune\Presenter\BaseAuthPresenter:
+        setup:
+            - decorateAdminParameters(%admin%)
+    Nepttune\TI\IRestricted:
+        setup:
+            - decorateRestricted
+    Nepttune\TI\IAccessForm:
+        setup:
+            - decorateAccessForm
+
+translation:
+    dirs:
+        - '%appDir%/../vendor/nepttune/admin/lang'
