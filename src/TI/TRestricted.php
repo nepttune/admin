@@ -22,7 +22,7 @@ trait TRestricted
     /** @var \Nette\Caching\Cache */
     protected $cache;
 
-    public function injectRestricted(
+    public function decorateRestricted(
         \Nette\DI\Container $container,
         \Nette\Caching\IStorage $storage) : void
     {
