@@ -27,7 +27,7 @@ abstract class BaseAuthPresenter extends BasePresenter implements \Nepttune\TI\I
     /** @var  array */
     protected $admin;
 
-    public function injectAdminParameters(
+    public function decorateAdminParameters(
         array $admin,
         \Nepttune\Component\IConfigMenuFactory $IConfigMenuFactory,
         \Nepttune\Component\IBreadcrumbFactory $IBreadcrumbFactory)
