@@ -23,9 +23,16 @@ class Authenticator implements NS\IAuthenticator
     /** @var UserModel */
     private $userModel;
 
-    public function __construct(UserModel $userModel)
+    /** @var \Nette\Security\Passwords */
+    protected $passwords;
+
+    public function __construct(
+        UserModel $userModel,
+        \Nette\Security\Passwords $passwords
+    )
     {
         $this->userModel = $userModel;
+        $this->passwords = $passwords;
     }
     
     public function authenticate(array $credentials) : NS\IIdentity
@@ -36,18 +43,18 @@ class Authenticator implements NS\IAuthenticator
             ->where('active', 1)
             ->fetch();
 
-        if (!$row)
+        if (!$row instanceof \Nette\Database\Table\ActiveRow)
         {
             throw new NS\AuthenticationException('admin.error.user');
         }
 
-        if (!NS\Passwords::verify($password, $row->password))
+        if ($this->passwords->verify($password, $row->password))
         {
-            throw new NS\AuthenticationException('admin.error.password');
+            $data = $row->toArray();
+            unset($data['password']);
+            return new \Nette\Security\Identity($row->id, $row->root ? ['root'] : [], $data);
         }
 
-        $data = $row->toArray();
-        unset($data['password']);
-        return new \Nette\Security\Identity($row->id, $row->root ? ['root'] : [], $data);
+        throw new NS\AuthenticationException('admin.error.password');
     }
 }
