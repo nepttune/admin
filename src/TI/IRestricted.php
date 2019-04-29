@@ -16,7 +16,7 @@ namespace Nepttune\TI;
 
 interface IRestricted
 {
-    public function injectRestricted(\Nette\DI\Container $container, \Nette\Caching\IStorage $storage) : void;
+    public function decorateRestricted(\Nette\DI\Container $container, \Nette\Caching\IStorage $storage) : void;
 
     public function getRestricted() : array;
     
