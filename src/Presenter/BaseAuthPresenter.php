@@ -39,13 +39,13 @@ abstract class BaseAuthPresenter extends BasePresenter implements \Nepttune\TI\I
 
     public function checkRequirements($element) : void
     {
-        if (!$this->getUser()->isLoggedIn())
-        {
+        parent::checkRequirements($element);
+        
+        if (static::LOGIN_WALL && !$this->getUser()->isLoggedIn()) {
             $this->redirect($this->dest['signIn'], ['backlink' => $this->storeRequest()]);
         }
 
-        if (!$this->authorizator->isAllowed($this->getAction(true)))
-        {
+        if (!$this->authorizator->isAllowed($this->getAction(true))) {
             throw new \Nette\Application\BadRequestException('Forbidden', 403);
         }
     }
