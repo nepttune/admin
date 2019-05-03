@@ -16,6 +16,8 @@ namespace Nepttune\TI;
 
 interface IRestricted
 {
+    public const LOGIN_WALL = true;
+    
     public function decorateRestricted(\Nette\DI\Container $container, \Nette\Caching\IStorage $storage) : void;
 
     public function getRestricted() : array;
