@@ -76,6 +76,12 @@ class Authorizator
             {
                 return false;
             }
+            
+            /** Rosource is for logged users */
+            if (!empty($restricted[$resource]['loggedin']))
+            {
+                return $this->user->isLoggedIn();
+            }
 
             /** Resource traces other */
             if (!empty($restricted[$resource]['traces']))
