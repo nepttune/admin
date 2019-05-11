@@ -47,8 +47,8 @@ CREATE TABLE IF NOT EXISTS `user`
   `username`   VARCHAR(255)                NOT NULL,
   `password`   VARCHAR(255)                NOT NULL,
   `registered` DATE                        NOT NULL,
-  `root`       TINYINT DEFAULT 0           NOT NULL,
-  `active`     TINYINT DEFAULT 1           NOT NULL,
+  `root`       TINYINT(1) DEFAULT 0        NOT NULL,
+  `active`     TINYINT(1) DEFAULT 1        NOT NULL,
 
   CONSTRAINT `user_role_id_fk`
   FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
