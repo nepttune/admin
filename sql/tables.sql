@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `role`
 (
   `id`          INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `name`        VARCHAR(255)                NOT NULL,
-  `description` TEXT,
+  `description` TEXT                        DEFAULT NULL,
   `active`      TINYINT(1) DEFAULT 1        NOT NULL
 ) ENGINE = INNODB 
   CHARACTER SET `utf8mb4`
