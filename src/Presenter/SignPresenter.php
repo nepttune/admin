@@ -44,7 +44,9 @@ abstract class SignPresenter extends BasePresenter
         $control = $this->iLoginFormFactory->create();
         $control->saveCallback = function () {
             $this->flashMessage('admin.flash.sign_in', 'success');
-            $this->restoreRequest($this->getPresenter()->getParameter('backlink'));
+            if ($this->getParameter('backlink')) {
+                $this->restoreRequest($this->getParameter('backlink'));
+            }
             $this->redirect($this->dest['adminHomepage']);
         };
         $control->failureCallback = function ($form, $msg) {
