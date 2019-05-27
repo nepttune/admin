@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `log_login`
   `ip_address` VARBINARY(16)               NOT NULL,
   `username`   VARCHAR(255)                NOT NULL,
   `result`     ENUM('success', 'failure')  NOT NULL,
-  `datetime`   DATETIME                    NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `datetime`   DATETIME                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   
   INDEX `log_login_ip_address_index` (`ip_address`)
 ) ENGINE = INNODB;
