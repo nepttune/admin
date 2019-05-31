@@ -18,16 +18,19 @@ use \Nette\Application\UI\Form;
 
 class UserForm extends BaseFormComponent
 {
-    protected const REDIRECT = ':default';
+    /** @var \Nette\Security\Passwords */
+    protected $passwords;
 
     /** @var \Nepttune\Model\RoleModel */
     protected $roleModel;
 
     public function __construct(
+        \Nette\Security\Passwords $passwords,
         \Nepttune\Model\UserModel $userModel,
         \Nepttune\Model\RoleModel $roleModel)
     {
         $this->repository = $userModel;
+        $this->passwords = $passwords;
         $this->roleModel = $roleModel;
     }
 
@@ -42,12 +45,9 @@ class UserForm extends BaseFormComponent
         $form->addSelect('role_id', 'Přednastavená role', $this->roleModel->findActive()->fetchPairs('id', 'name'))
             ->setPrompt('Vyberte roli');
 
-        if ($this->rowId)
-        {
+        if ($this->rowId) {
             $form['username']->setDisabled();
-        }
-        else
-        {
+        } else {
             $form['username']->setRequired();
             $form['password']->setRequired();
             $form['password2']->setRequired();
@@ -60,17 +60,13 @@ class UserForm extends BaseFormComponent
     {
         unset($values->password2);
         
-        if ($values->password)
-        {
-            $values->password = \Nette\Security\Passwords::hash($values->password);
-        }
-        else
-        {
+        if ($values->password) {
+            $values->password = $this->passwords->hash($values->password);
+        } else {
             unset($values->password);
         }
 
-        if (!$this->rowId)
-        {
+        if (!$this->rowId) {
             $values->registered = new \Nette\Utils\DateTime();
         }
 
