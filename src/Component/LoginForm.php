@@ -86,11 +86,12 @@ class LoginForm extends BaseFormComponent
             'username' => $values->username
         ]);
 
-        if ($failure)
-        {
-            $this->failureCallback($form, $failure);
+        if ($failure) {
+            \call_user_func($this->failureCallback, $form, $failure);
+            
+            return;
         }
 
-        $this->saveCallback($form, $values);
+        \call_user_func($this->saveCallback, $form, $values);
     }
 }
