@@ -21,7 +21,7 @@ class Authenticator implements NS\IAuthenticator
     use \Nette\SmartObject;
 
     /** @var UserModel */
-    private $userModel;
+    protected $userModel;
 
     /** @var \Nette\Security\Passwords */
     protected $passwords;
