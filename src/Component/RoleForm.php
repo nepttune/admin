@@ -41,28 +41,20 @@ class RoleForm extends BaseFormComponent implements \Nepttune\TI\IAccessForm
 
     public function formSuccess(\Nette\Application\UI\Form $form, \stdClass $values) : void
     {
-        $access = \array_filter((array) $values->access, function ($value) {return $value === true;});
+        $access = \array_filter((array) $values->access, static function ($value) {return $value === true;});
         unset($values->access);
 
-        $rowId = 0;
-
-        if ($this->rowId)
+        $rowId = $this->roleAccessModel->transaction(function() use ($values, $access)
         {
-            $values->id = $this->rowId;
-        }
+            $rowId = $this->repository->upsert($this->rowId, (array) $values);
+            $this->roleAccessModel->deleteByArray(['role_id' => $rowId]);
+            $this->roleAccessModel->insertMany(static::createInsertArray($rowId, $access));
 
-        $this->roleAccessModel->transaction(function() use ($values, $access, &$rowId)
-        {
-            $row = $this->repository->upsert((array) $values);
-            $this->roleAccessModel->deleteByArray(['role_id' => $row->id]);
-            $this->roleAccessModel->insertMany(static::createInsertArray($row->id, $access));
-
-            $rowId = $row->id;
+            return $rowId;
         });
 
-        if ($this->saveCallback)
-        {
-            $this->saveCallback($form, $values, $rowId);
+        if (\is_callable($this->saveCallback)) {
+            \call_user_func($this->saveCallback, $form, $values, $rowId);
         }
     }
 }
