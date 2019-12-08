@@ -129,7 +129,7 @@ class Authorizator
      * Returns user id of current user.
      * @return int
      */
-    public function getUserId() : int
+    public function getUserId() : ?int
     {
         return $this->user->getId();
     }
