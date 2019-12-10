@@ -14,7 +14,7 @@ declare(strict_types = 1);
 
 namespace Nepttune\Model;
 
-class Authorizator
+class Authorizator implements \Nepttune\Model\IAuthorizator
 {
     use \Nette\SmartObject;
 
