@@ -30,9 +30,6 @@ class Authorizator
     /** @var \Nette\Application\IPresenterFactory */
     protected $presenterFactory;
 
-    /** @var \Nette\Http\Request */
-    protected $request;
-
     public function __construct(
         RoleAccessModel $roleAccessModel,
         \Nette\Security\User $user,
@@ -87,23 +84,6 @@ class Authorizator
             if (!empty($restricted[$resource]['traces']))
             {
                 $resource = \array_pop($restricted[$resource]['traces']);
-                static::validateResource($resource);
-                continue;
-            }
-
-            /**
-             * Resource morphs into other
-             * This option is not ideal and designed just for edge cases.
-             */
-            if (!empty($restricted[$resource]['morphs']))
-            {
-                $resource = $this->handleMorph(\array_pop($restricted[$resource]['morphs']), $resource, $params);
-
-                if (\is_bool($resource))
-                {
-                    return $resource;
-                }
-
                 static::validateResource($resource);
                 continue;
             }
@@ -187,18 +167,5 @@ class Authorizator
         }
 
         return $temp;
-    }
-
-    private function handleMorph(string $morph, string $resource = null, array $params = [])
-    {
-        if (\is_callable($morph))
-        {
-            return \call_user_func($function, $params);
-        }
-
-        list($presenterName, $action) = static::splitResource($resource);
-        $presenter = $this->presenterFactory->createPresenter($presenterName);
-
-        return \call_user_func([$presenter, $morph], $params);
     }
 }
