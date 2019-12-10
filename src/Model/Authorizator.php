@@ -130,7 +130,7 @@ class Authorizator implements \Nepttune\Model\IAuthorizator
      */
     protected static function validateResource(string $resource) : void
     {
-        if (\substr_count($resource, ':') !== 3)
+        if ($resource === '' || $resource[0] !== ':' || \substr_count($resource, ':') !== 3) 
         {
             throw new \Nette\InvalidStateException('Invalid destination provided. Enter FQN.');
         }
@@ -156,7 +156,7 @@ class Authorizator implements \Nepttune\Model\IAuthorizator
     
     private static function splitResource(string $resource) : array
     {
-        $temp = \array_filter(\explode(':', $resource), '\strlen');
+        $temp = \array_slice(\explode(':', $resource), 1);
 
         if (\count($temp) === 3)
         {
