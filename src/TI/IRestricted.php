@@ -18,12 +18,11 @@ interface IRestricted
 {
     public const LOGIN_WALL = true;
     
-    public function decorateRestricted(\Nette\DI\Container $container, \Nette\Caching\IStorage $storage) : void;
+    public function decorateRestricted(\Nepttune\Model\IAuthorizator $authorizator, \Nette\Caching\IStorage $storage) : void;
 
     public function getRestricted() : array;
     
-    public function getAuthorizator() : \Nepttune\Model\Authorizator;
+    public function getAuthorizator() : \Nepttune\Model\IAuthorizator;
     
     public static function getRestrictedStatic() : array;
 }
-
