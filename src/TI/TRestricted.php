@@ -23,14 +23,14 @@ trait TRestricted
     protected $cache;
 
     public function decorateRestricted(
-        \Nette\DI\Container $container,
+        \Nepttune\Model\IAuthorizator $authorizator,
         \Nette\Caching\IStorage $storage) : void
     {
-        $this->authorizator = $container->getService('authorizator');
+        $this->authorizator = $authorizator;
         $this->cache = new \Nette\Caching\Cache($storage, 'Nepttune.Authorizator');
     }
 
-    public function getAuthorizator() : \Nepttune\Model\Authorizator
+    public function getAuthorizator() : \Nepttune\Model\IAuthorizator
     {
         return $this->authorizator;
     }
@@ -93,7 +93,7 @@ trait TRestricted
                 }
             }
 
-            $resource = ":{$matches[1]}:{$matches[2]}:" . lcfirst(substr($method->getName(), 6));
+            $resource = ":{$matches[1]}:{$matches[2]}:" . \lcfirst(\substr($method->getName(), 6));
             $return[$resource] = $attributes;
         }
         
