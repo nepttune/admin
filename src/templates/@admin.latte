@@ -93,9 +93,7 @@
             {control breadcrumb}
         </section>
         <section class="content container-fluid">
-            {snippet flashMessages}
-                {include $presenter->getFlashArea()}
-            {/snippet}
+            {control flashMessages}
             {include #content}
         </section>
     </div>
